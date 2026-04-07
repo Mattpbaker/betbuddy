@@ -34,6 +34,21 @@ export interface APIFixture {
   score: { halftime: { home: number | null; away: number | null } }
 }
 
+export interface APIStanding {
+  league: {
+    id: number
+    name: string
+    standings: Array<Array<{
+      rank: number
+      team: { id: number; name: string; logo: string }
+      points: number
+      goalsDiff: number
+      form: string
+      all: { played: number; win: number; draw: number; lose: number }
+    }>>
+  }
+}
+
 export interface APIInjury {
   player: { id: number; name: string }
   team: { id: number }
@@ -52,12 +67,14 @@ export class APIFootballClient {
     const res = await fetch(url.toString(), {
       headers: {
         'x-apisports-key': this.apiKey,
-        'Content-Type': 'application/json',
       },
     })
 
     if (!res.ok) throw new Error(`API-Football error: ${res.status} ${res.statusText}`)
     const data = await res.json()
+    if (data.errors && Object.keys(data.errors).length > 0) {
+      throw new Error(`API-Football error: ${JSON.stringify(data.errors)}`)
+    }
     return data.response as T
   }
 
@@ -92,8 +109,8 @@ export class APIFootballClient {
     })
   }
 
-  async getStandings(leagueId: number): Promise<any[]> {
-    return this.get<any[]>('/standings', {
+  async getStandings(leagueId: number): Promise<APIStanding[]> {
+    return this.get<APIStanding[]>('/standings', {
       league: leagueId,
       season: new Date().getFullYear(),
     })

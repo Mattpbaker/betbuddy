@@ -2,10 +2,13 @@
 import { APIFootballClient } from '@/lib/api-football'
 
 const mockFetch = jest.fn()
-global.fetch = mockFetch
 
 describe('APIFootballClient', () => {
-  beforeEach(() => mockFetch.mockClear())
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation(mockFetch)
+    mockFetch.mockReset()
+  })
+  afterEach(() => jest.restoreAllMocks())
 
   it('fetches upcoming fixtures for a league', async () => {
     mockFetch.mockResolvedValueOnce({
