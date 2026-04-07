@@ -1,65 +1,89 @@
-import Image from "next/image";
+import { supabase } from '@/lib/supabase'
+import { MatchRow } from '@/components/MatchRow'
+import type { Match } from '@/types'
 
-export default function Home() {
+async function getUpcomingMatches(): Promise<Record<string, Match[]>> {
+  const sevenDaysFromNow = new Date()
+  sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
+
+  const { data, error } = await supabase
+    .from('matches')
+    .select(`
+      *,
+      home_team:home_team_id(*),
+      away_team:away_team_id(*),
+      odds(*),
+      report:reports(id, generated_at)
+    `)
+    .gte('match_date', new Date().toISOString())
+    .lte('match_date', sevenDaysFromNow.toISOString())
+    .eq('status', 'scheduled')
+    .order('match_date', { ascending: true })
+
+  if (error || !data) return {}
+
+  // Group by competition
+  return data.reduce((acc, match) => {
+    const key = match.competition
+    if (!acc[key]) acc[key] = []
+    acc[key].push(match as Match)
+    return acc
+  }, {} as Record<string, Match[]>)
+}
+
+export default async function DashboardPage() {
+  const matchesByCompetition = await getUpcomingMatches()
+  const competitions = Object.keys(matchesByCompetition)
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="font-['Rajdhani'] text-2xl font-bold text-white tracking-widest uppercase">
+          Upcoming Matches
+        </h1>
+        <div className="flex gap-2">
+          <form action="/api/sync/fixtures" method="POST">
+            <button
+              type="submit"
+              className="text-[10px] font-mono tracking-widest text-[#5a6a7e] hover:text-[#8a9ab0] border border-[#1c2535] rounded px-3 py-1.5 hover:bg-[#1c2535] transition-colors"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              SYNC FIXTURES
+            </button>
+          </form>
+          <form action="/api/sync/odds" method="POST">
+            <button
+              type="submit"
+              className="text-[10px] font-mono tracking-widest text-[#5a6a7e] hover:text-[#8a9ab0] border border-[#1c2535] rounded px-3 py-1.5 hover:bg-[#1c2535] transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              SYNC ODDS
+            </button>
+          </form>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      {competitions.length === 0 ? (
+        <div className="text-center py-20 text-[#3a4a5e] font-mono text-sm">
+          No matches found. Click SYNC FIXTURES to pull upcoming games.
         </div>
-      </main>
+      ) : (
+        <div className="flex flex-col gap-6">
+          {competitions.map(competition => (
+            <section key={competition}>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#2a9d5c]" />
+                <h2 className="font-mono text-[11px] text-[#5a6a7e] tracking-[0.1em] uppercase">
+                  {competition} · {matchesByCompetition[competition].length} matches
+                </h2>
+              </div>
+              <div className="bg-[#0d1117] border border-[#1c2535] rounded-lg overflow-hidden">
+                {matchesByCompetition[competition].map(match => (
+                  <MatchRow key={match.id} match={match} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  )
 }
