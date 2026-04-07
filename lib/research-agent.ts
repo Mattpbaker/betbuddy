@@ -72,10 +72,31 @@ Return ONLY valid JSON matching this exact schema (no markdown, no explanation):
 }
 
 export function parseReportContent(rawResponse: string): ReportContent {
-  // Strip markdown code fences if present
-  const cleaned = rawResponse.replace(/^```json?\n?/m, '').replace(/\n?```$/m, '').trim()
+  const trimmed = rawResponse.trim()
+  // Strip markdown code fences if Claude wraps response despite instructions
+  const fenced = /^```(?:json)?\n([\s\S]*?)\n?```\s*$/
+  const match = trimmed.match(fenced)
+  const cleaned = match ? match[1] : trimmed
   const parsed = JSON.parse(cleaned)
+
+  // Validate top-level keys are present
+  const required = ['form', 'h2h', 'squad', 'key_players', 'home_away_record', 'league_context', 'tactical_notes', 'conditions', 'suggestions']
+  for (const key of required) {
+    if (!(key in parsed)) throw new Error(`parseReportContent: missing required key "${key}"`)
+  }
+
   return parsed as ReportContent
+}
+
+let _anthropicClient: Anthropic | null = null
+
+function getAnthropicClient(): Anthropic {
+  if (!_anthropicClient) {
+    const apiKey = process.env.ANTHROPIC_API_KEY
+    if (!apiKey) throw new Error('ANTHROPIC_API_KEY env var not set')
+    _anthropicClient = new Anthropic({ apiKey })
+  }
+  return _anthropicClient
 }
 
 export async function generateReport(
@@ -83,10 +104,7 @@ export async function generateReport(
   awayTeam: string,
   context: ResearchContext
 ): Promise<ReportContent> {
-  const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY env var not set')
-
-  const client = new Anthropic({ apiKey })
+  const client = getAnthropicClient()
   const prompt = buildResearchPrompt(homeTeam, awayTeam, context)
 
   const message = await client.messages.create({

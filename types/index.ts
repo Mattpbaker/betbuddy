@@ -58,11 +58,11 @@ export interface PlayerStats {
 }
 
 export interface TeamForm {
-  team_id: string
+  team_id?: string        // optional — not present in AI-generated reports
   last_5_results: FormResult[]
   goals_scored_last5: number
   goals_conceded_last5: number
-  updated_at: string
+  updated_at?: string     // optional — not present in AI-generated reports
 }
 
 export interface FormResult {

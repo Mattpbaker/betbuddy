@@ -65,4 +65,19 @@ describe('parseReportContent', () => {
   it('throws on invalid JSON', () => {
     expect(() => parseReportContent('not json')).toThrow()
   })
+
+  it('throws when a required top-level key is missing', () => {
+    const missingKey = JSON.stringify({
+      form: { home: {}, away: {} },
+      h2h: {},
+      // squad is missing
+      key_players: {},
+      home_away_record: {},
+      league_context: {},
+      tactical_notes: '',
+      conditions: '',
+      suggestions: [],
+    })
+    expect(() => parseReportContent(missingKey)).toThrow('missing required key "squad"')
+  })
 })
