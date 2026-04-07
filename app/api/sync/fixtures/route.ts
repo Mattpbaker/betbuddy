@@ -1,53 +1,52 @@
 // app/api/sync/fixtures/route.ts
 import { NextResponse } from 'next/server'
-import { createAPIFootballClient, LEAGUE_IDS } from '@/lib/api-football'
+import { createOddsAPIClient, ODDS_SPORT_KEYS } from '@/lib/odds-api'
 import { supabaseAdmin } from '@/lib/supabase'
 
 export async function POST() {
   try {
-    const client = createAPIFootballClient()
+    const client = createOddsAPIClient()
     let totalUpserted = 0
 
-    for (const [competition, leagueId] of Object.entries(LEAGUE_IDS)) {
-      const fixtures = await client.getUpcomingFixtures(leagueId, 14)
+    for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
+      let fixtures
+      try {
+        fixtures = await client.getEvents(sportKey)
+      } catch {
+        // Competition may not be active right now — skip gracefully
+        continue
+      }
 
       for (const f of fixtures) {
-        // Upsert home team
+        // Upsert home team (conflict on name + competition)
         await supabaseAdmin.from('teams').upsert({
-          api_football_id: f.teams.home.id,
-          name: f.teams.home.name,
-          country: '',
+          name: f.home_team,
           competition,
-          logo_url: f.teams.home.logo,
-        }, { onConflict: 'api_football_id', ignoreDuplicates: false })
+        }, { onConflict: 'name,competition', ignoreDuplicates: true })
 
         // Upsert away team
         await supabaseAdmin.from('teams').upsert({
-          api_football_id: f.teams.away.id,
-          name: f.teams.away.name,
-          country: '',
+          name: f.away_team,
           competition,
-          logo_url: f.teams.away.logo,
-        }, { onConflict: 'api_football_id', ignoreDuplicates: false })
+        }, { onConflict: 'name,competition', ignoreDuplicates: true })
 
-        // Get team IDs
-        const { data: homeTeam } = await supabaseAdmin
-          .from('teams').select('id').eq('api_football_id', f.teams.home.id).single()
-        const { data: awayTeam } = await supabaseAdmin
-          .from('teams').select('id').eq('api_football_id', f.teams.away.id).single()
+        // Fetch the team UUIDs we just upserted
+        const [{ data: homeTeam }, { data: awayTeam }] = await Promise.all([
+          supabaseAdmin.from('teams').select('id').eq('name', f.home_team).eq('competition', competition).single(),
+          supabaseAdmin.from('teams').select('id').eq('name', f.away_team).eq('competition', competition).single(),
+        ])
 
         if (!homeTeam || !awayTeam) continue
 
-        // Upsert match
+        // Upsert match (conflict on odds_event_id)
         await supabaseAdmin.from('matches').upsert({
-          api_football_id: f.fixture.id,
+          odds_event_id: f.id,
           home_team_id: homeTeam.id,
           away_team_id: awayTeam.id,
           competition,
-          match_date: f.fixture.date,
-          venue: f.fixture.venue?.name ?? null,
-          status: f.fixture.status.short,
-        }, { onConflict: 'api_football_id', ignoreDuplicates: false })
+          match_date: f.commence_time,
+          status: 'scheduled',
+        }, { onConflict: 'odds_event_id', ignoreDuplicates: false })
 
         totalUpserted++
       }

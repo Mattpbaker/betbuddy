@@ -36,8 +36,27 @@ export interface OddsEvent {
   }[]
 }
 
+export interface OddsFixture {
+  id: string
+  sport_key: string
+  commence_time: string
+  home_team: string
+  away_team: string
+}
+
 export class OddsAPIClient {
   constructor(private apiKey: string) {}
+
+  // Returns upcoming fixtures for a sport — does NOT count against quota
+  async getEvents(sportKey: string): Promise<OddsFixture[]> {
+    const url = new URL(`${BASE_URL}/sports/${sportKey}/events`)
+    url.searchParams.set('apiKey', this.apiKey)
+    url.searchParams.set('dateFormat', 'iso')
+
+    const res = await fetch(url.toString())
+    if (!res.ok) throw new Error(`Odds API error: ${res.status} ${res.statusText}`)
+    return res.json()
+  }
 
   async getOdds(sportKey: string, markets: string[]): Promise<OddsEvent[]> {
     const url = new URL(`${BASE_URL}/sports/${sportKey}/odds`)

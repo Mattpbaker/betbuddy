@@ -20,12 +20,13 @@
 -- Teams
 create table if not exists teams (
   id uuid primary key default gen_random_uuid(),
-  api_football_id integer unique not null,
+  api_football_id integer unique,
   name text not null,
-  country text not null,
+  country text not null default '',
   competition text not null,
   logo_url text,
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  unique(name, competition)
 );
 
 -- Players
@@ -42,7 +43,8 @@ create table if not exists players (
 -- Matches
 create table if not exists matches (
   id uuid primary key default gen_random_uuid(),
-  api_football_id integer unique not null,
+  api_football_id integer unique,
+  odds_event_id text unique,
   home_team_id uuid references teams(id),
   away_team_id uuid references teams(id),
   competition text not null,
