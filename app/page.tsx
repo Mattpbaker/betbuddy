@@ -15,9 +15,8 @@ async function getUpcomingMatches(): Promise<Record<string, Match[]>> {
       odds(*),
       report:reports(id, generated_at)
     `)
-    .gte('match_date', new Date().toISOString())
     .lte('match_date', sevenDaysFromNow.toISOString())
-    .eq('status', 'NS')
+    .in('status', ['NS', '1H', 'HT', '2H', 'ET', 'BT', 'P'])
     .order('match_date', { ascending: true })
 
   if (error || !data) return {}
