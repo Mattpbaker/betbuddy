@@ -87,7 +87,7 @@ export interface APIFixtureOdd {
 export interface APILineupsResponse {
   fixture: { id: number }
   team: { id: number; name: string }
-  formation: string
+  formation: string | null
   startXI: Array<{
     player: { id: number; name: string; number: number; pos: string; grid: string | null }
   }>
@@ -146,7 +146,7 @@ export interface APIPrediction {
         def: string
         goals: { for: { average: number }; against: { average: number } }
       }
-      league: { form: string; fixtures: any; goals: any }
+      league: { form: string; fixtures: Record<string, unknown>; goals: Record<string, unknown> }
     }
     away: {
       id: number
@@ -157,7 +157,7 @@ export interface APIPrediction {
         def: string
         goals: { for: { average: number }; against: { average: number } }
       }
-      league: { form: string; fixtures: any; goals: any }
+      league: { form: string; fixtures: Record<string, unknown>; goals: Record<string, unknown> }
     }
   }
   comparison: {
