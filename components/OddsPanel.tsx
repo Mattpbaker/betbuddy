@@ -3,11 +3,11 @@ import { useState } from 'react'
 import type { Odd } from '@/types'
 
 const MARKET_LABELS: Record<string, string> = {
-  h2h: 'Match Result',
-  h2h_3_way: '3-Way Result',
-  totals: 'Over/Under Goals',
-  btts: 'Both Teams to Score',
-  draw_no_bet: 'Draw No Bet',
+  'Match Winner': 'Match Result (1X2)',
+  'Double Chance': 'Double Chance',
+  'Goals Over/Under': 'Over / Under Goals',
+  'Both Teams Score': 'Both Teams to Score',
+  'First Half Winner': 'Half Time Result',
 }
 
 interface Props {

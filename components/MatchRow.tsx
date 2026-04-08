@@ -7,9 +7,9 @@ interface Props {
 }
 
 export function MatchRow({ match }: Props) {
-  const homeOdds = match.odds?.find(o => o.market === 'h2h' && o.selection === match.home_team?.name)
-  const drawOdds = match.odds?.find(o => o.market === 'h2h' && o.selection === 'Draw')
-  const awayOdds = match.odds?.find(o => o.market === 'h2h' && o.selection === match.away_team?.name)
+  const homeOdds = match.odds?.find(o => o.market === 'Match Winner' && o.selection === 'Home')
+  const drawOdds = match.odds?.find(o => o.market === 'Match Winner' && o.selection === 'Draw')
+  const awayOdds = match.odds?.find(o => o.market === 'Match Winner' && o.selection === 'Away')
 
   const matchDate = new Date(match.match_date)
   const timeStr = matchDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
@@ -45,9 +45,9 @@ export function MatchRow({ match }: Props) {
 
       <div className="flex gap-1 shrink-0">
         {[
-          { label: '1', odds: homeOdds?.value, selection: match.home_team?.name ?? '', market: 'h2h' },
-          { label: 'X', odds: drawOdds?.value, selection: 'Draw', market: 'h2h' },
-          { label: '2', odds: awayOdds?.value, selection: match.away_team?.name ?? '', market: 'h2h' },
+          { label: '1', odds: homeOdds?.value, selection: 'Home', market: 'Match Winner' },
+          { label: 'X', odds: drawOdds?.value, selection: 'Draw', market: 'Match Winner' },
+          { label: '2', odds: awayOdds?.value, selection: 'Away', market: 'Match Winner' },
         ].map(({ label, odds, selection, market }) => (
           odds ? (
             <button
