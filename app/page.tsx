@@ -58,6 +58,14 @@ export default async function DashboardPage() {
               SYNC ODDS
             </button>
           </form>
+          <form action="/api/sync/rich" method="POST">
+            <button
+              type="submit"
+              className="text-[10px] font-mono tracking-widest text-[#5a6a7e] hover:text-[#8a9ab0] border border-[#1c2535] rounded px-3 py-1.5 hover:bg-[#1c2535] transition-colors"
+            >
+              SYNC RICH
+            </button>
+          </form>
         </div>
       </div>
 
