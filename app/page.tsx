@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabase'
 import { MatchRow } from '@/components/MatchRow'
 import type { Match } from '@/types'
 
+export const dynamic = 'force-dynamic'
+
 async function getUpcomingMatches(): Promise<Record<string, Match[]>> {
   const sevenDaysFromNow = new Date()
   sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 14)
