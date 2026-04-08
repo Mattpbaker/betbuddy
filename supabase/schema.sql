@@ -51,6 +51,7 @@ create table if not exists matches (
   match_date timestamptz not null,
   venue text,
   status text default 'scheduled',
+  -- Denormalized from match_results for quick display; keep in sync when writing scores
   round text,
   home_score integer,
   away_score integer,

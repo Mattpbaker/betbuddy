@@ -45,7 +45,8 @@ create table if not exists match_predictions (
   fetched_at timestamptz default now()
 );
 
--- Add round and score columns to matches for quick display
+-- Add round and score columns to matches for quick display.
+-- home_score/away_score/ht_* are denormalized from match_results for efficient list rendering; keep in sync when writing scores.
 alter table matches add column if not exists round text;
 alter table matches add column if not exists home_score integer;
 alter table matches add column if not exists away_score integer;
