@@ -133,3 +133,19 @@ create table if not exists bet_slip_items (
   report_id uuid references reports(id),
   created_at timestamptz default now()
 );
+
+-- =============================================================
+-- MIGRATION: run this section if tables already existed above
+-- (CREATE TABLE IF NOT EXISTS skips constraint changes)
+-- =============================================================
+
+-- Allow teams to exist without an API-Football ID
+alter table teams alter column api_football_id drop not null;
+
+-- Allow teams to be upserted by name+competition
+alter table teams add constraint if not exists teams_name_competition_key unique (name, competition);
+
+-- Add Odds API event ID to matches (used as upsert key instead of api_football_id)
+alter table matches add column if not exists odds_event_id text;
+alter table matches add constraint if not exists matches_odds_event_id_key unique (odds_event_id);
+alter table matches alter column api_football_id drop not null;
