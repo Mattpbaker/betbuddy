@@ -4,18 +4,18 @@ const BASE_URL = 'https://api.the-odds-api.com/v4'
 
 // Sport keys mapping for our competitions
 export const ODDS_SPORT_KEYS: Record<string, string> = {
-  'Premier League': 'soccer_england_premier_league',
-  'La Liga': 'soccer_spain_la_liga',
+  'Premier League': 'soccer_epl',
+  'La Liga': 'soccer_spain_primera_division',
   'Bundesliga': 'soccer_germany_bundesliga',
   'Serie A': 'soccer_italy_serie_a',
-  'Ligue 1': 'soccer_france_ligue_one',
-  'FA Cup': 'soccer_england_league_cup',
-  'Copa del Rey': 'soccer_spain_segunda_division',
-  'DFB-Pokal': 'soccer_germany_bundesliga2',
-  'Coppa Italia': 'soccer_italy_serie_b',
-  'Coupe de France': 'soccer_france_ligue_two',
-  'Champions League': 'soccer_uefa_champs_league',
-  'Europa League': 'soccer_uefa_europa_league',
+  'Ligue 1': 'soccer_france_ligue_1',
+  'FA Cup': 'soccer_england_fa_cup',
+  'Copa del Rey': 'soccer_spain_copa_del_rey',
+  'DFB-Pokal': 'soccer_germany_dfb_pokal',
+  'Coppa Italia': 'soccer_italy_coppa_italia',
+  'Coupe de France': 'soccer_france_coupe_de_france',
+  'Champions League': 'soccer_europe_champions_league',
+  'Europa League': 'soccer_europe_europa_league',
 }
 
 // Markets we want to fetch
