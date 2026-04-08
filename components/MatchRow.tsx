@@ -48,7 +48,13 @@ export function MatchRow({ match }: Props) {
           <span className="text-[13px] text-[#c0ccd8] font-medium truncate">
             {match.home_team?.name}
           </span>
-          <span className="text-[10px] text-[#3a4a5e] font-mono shrink-0">vs</span>
+          {isLive ? (
+            <span className="text-[13px] text-white font-bold font-mono shrink-0 px-1">
+              {match.home_score ?? 0} - {match.away_score ?? 0}
+            </span>
+          ) : (
+            <span className="text-[10px] text-[#3a4a5e] font-mono shrink-0">vs</span>
+          )}
           <span className="text-[13px] text-[#c0ccd8] font-medium truncate">
             {match.away_team?.name}
           </span>

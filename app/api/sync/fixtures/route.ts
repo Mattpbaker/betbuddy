@@ -83,6 +83,8 @@ export async function POST() {
           venue: f.fixture.venue?.name ?? null,
           status: f.fixture.status.short,
           round: f.league.round,
+          home_score: f.goals.home,
+          away_score: f.goals.away,
         }, { onConflict: 'api_football_id', ignoreDuplicates: false })
 
         if (matchErr) continue
