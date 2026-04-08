@@ -8,17 +8,26 @@ export async function POST() {
     const client = createOddsAPIClient()
     let totalUpserted = 0
 
-    for (const [, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
+    const errors: Record<string, string> = {}
+    let firstEventId: string | null = null
+    let firstDbMatch: string | null = null
+
+    for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
       let events
       try {
         events = await client.getOdds(sportKey, MARKETS)
-      } catch {
-        // Some competitions may not be available — skip gracefully
+      } catch (err) {
+        errors[competition] = String(err)
         continue
       }
 
+      if (!firstEventId && events.length > 0) {
+        firstEventId = events[0].id
+        const { data: m } = await supabaseAdmin.from('matches').select('id,odds_event_id').eq('odds_event_id', events[0].id).single()
+        firstDbMatch = m ? `found: ${m.id}` : 'not found'
+      }
+
       for (const event of events) {
-        // Match directly by Odds API event ID (set during fixture sync)
         const { data: match } = await supabaseAdmin
           .from('matches')
           .select('id')
@@ -38,7 +47,7 @@ export async function POST() {
       }
     }
 
-    return NextResponse.json({ success: true, upserted: totalUpserted })
+    return NextResponse.json({ success: true, upserted: totalUpserted, firstEventId, firstDbMatch, errors })
   } catch (err) {
     console.error('Odds sync error:', err)
     return NextResponse.json({ error: String(err) }, { status: 500 })
