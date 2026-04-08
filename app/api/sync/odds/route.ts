@@ -26,22 +26,24 @@ export async function POST() {
     }
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+    const debugLog: string[] = []
 
     for (const match of matches) {
       const sportKey = COMPETITION_TO_SPORT_KEY[match.competition]
-      if (!sportKey) continue
+      if (!sportKey) { debugLog.push(`skip:no_sport_key:${match.competition}`); continue }
 
       await sleep(200)
 
       let event
       try {
         event = await client.getEventOdds(sportKey, match.odds_event_id, MARKETS)
-      } catch {
+      } catch (err) {
+        debugLog.push(`api_err:${match.odds_event_id}:${String(err).slice(0, 80)}`)
         continue
       }
 
       const flatOdds = client.flattenOdds(event, match.id)
-      if (flatOdds.length === 0) continue
+      if (flatOdds.length === 0) { debugLog.push(`skip:empty_odds:${match.odds_event_id}`); continue }
 
       const { error: upsertError } = await supabaseAdmin.from('odds').upsert(flatOdds, {
         onConflict: 'match_id,market,selection',
@@ -49,14 +51,14 @@ export async function POST() {
       })
 
       if (upsertError) {
-        console.error(`Odds upsert error for match ${match.id}:`, upsertError.message)
+        debugLog.push(`upsert_err:${match.id}:${upsertError.message.slice(0, 80)}`)
         continue
       }
 
       totalUpserted += flatOdds.length
     }
 
-    return NextResponse.json({ success: true, upserted: totalUpserted })
+    return NextResponse.json({ success: true, upserted: totalUpserted, debug: debugLog.slice(0, 20) })
   } catch (err) {
     console.error('Odds sync error:', err)
     return NextResponse.json({ error: String(err) }, { status: 500 })
