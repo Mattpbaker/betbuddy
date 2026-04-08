@@ -9,6 +9,7 @@ export async function POST() {
     let totalUpserted = 0
 
     const errors: Record<string, string> = {}
+    const counts: Record<string, number> = {}
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
     for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
@@ -20,6 +21,8 @@ export async function POST() {
         errors[competition] = String(err)
         continue
       }
+
+      counts[competition] = Array.isArray(fixtures) ? fixtures.length : -1
 
       for (const f of fixtures) {
         // Upsert home team (conflict on name + competition)
@@ -56,7 +59,7 @@ export async function POST() {
       }
     }
 
-    return NextResponse.json({ success: true, upserted: totalUpserted, errors })
+    return NextResponse.json({ success: true, upserted: totalUpserted, counts, errors })
   } catch (err) {
     console.error('Fixtures sync error:', err)
     return NextResponse.json({ error: String(err) }, { status: 500 })
