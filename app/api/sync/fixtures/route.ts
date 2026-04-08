@@ -9,8 +9,10 @@ export async function POST() {
     let totalUpserted = 0
 
     const errors: Record<string, string> = {}
+    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
     for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
+      await sleep(300)
       let fixtures
       try {
         fixtures = await client.getEvents(sportKey)

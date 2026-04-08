@@ -5,7 +5,7 @@ const BASE_URL = 'https://api.the-odds-api.com/v4'
 // Sport keys mapping for our competitions
 export const ODDS_SPORT_KEYS: Record<string, string> = {
   'Premier League': 'soccer_epl',
-  'La Liga': 'soccer_spain_primera_division',
+  'La Liga': 'soccer_spain_la_liga',
   'Bundesliga': 'soccer_germany_bundesliga',
   'Serie A': 'soccer_italy_serie_a',
   'Ligue 1': 'soccer_france_ligue_1',
@@ -14,8 +14,8 @@ export const ODDS_SPORT_KEYS: Record<string, string> = {
   'DFB-Pokal': 'soccer_germany_dfb_pokal',
   'Coppa Italia': 'soccer_italy_coppa_italia',
   'Coupe de France': 'soccer_france_coupe_de_france',
-  'Champions League': 'soccer_europe_champions_league',
-  'Europa League': 'soccer_europe_europa_league',
+  'Champions League': 'soccer_uefa_champs_league',
+  'Europa League': 'soccer_uefa_europa_league',
 }
 
 // Markets we want to fetch
@@ -49,9 +49,14 @@ export class OddsAPIClient {
 
   // Returns upcoming fixtures for a sport — does NOT count against quota
   async getEvents(sportKey: string): Promise<OddsFixture[]> {
+    const now = new Date()
+    const in14Days = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000)
+
     const url = new URL(`${BASE_URL}/sports/${sportKey}/events`)
     url.searchParams.set('apiKey', this.apiKey)
     url.searchParams.set('dateFormat', 'iso')
+    url.searchParams.set('commenceTimeFrom', now.toISOString())
+    url.searchParams.set('commenceTimeTo', in14Days.toISOString())
 
     const res = await fetch(url.toString())
     if (!res.ok) throw new Error(`Odds API error: ${res.status} ${res.statusText}`)
