@@ -18,8 +18,8 @@ export const ODDS_SPORT_KEYS: Record<string, string> = {
   'Europa League': 'soccer_uefa_europa_league',
 }
 
-// Markets we want to fetch (h2h = match result, totals = over/under goals)
-export const MARKETS = ['h2h', 'totals']
+// Markets we want to fetch
+export const MARKETS = ['h2h_3_way', 'totals', 'btts', 'draw_no_bet', 'team_totals']
 
 export interface OddsEvent {
   id: string
