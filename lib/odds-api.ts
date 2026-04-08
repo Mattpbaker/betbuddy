@@ -72,7 +72,10 @@ export class OddsAPIClient {
     url.searchParams.set('oddsFormat', 'decimal')
 
     const res = await fetch(url.toString())
-    if (!res.ok) throw new Error(`Odds API error: ${res.status} ${res.statusText}`)
+    if (!res.ok) {
+      const body = await res.text()
+      throw new Error(`Odds API error: ${res.status} ${res.statusText} — ${body}`)
+    }
     return res.json()
   }
 
