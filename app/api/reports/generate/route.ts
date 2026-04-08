@@ -68,20 +68,34 @@ export async function POST(req: Request) {
 
     // Cache form data
     if (!homeFormCache && Array.isArray(homeFormRaw) && homeFormRaw.length) {
+      const homeTeamAfId = match.home_team.api_football_id
       await supabaseAdmin.from('team_form').upsert({
         team_id: match.home_team.id,
         last_5_results: homeFormRaw,
-        goals_scored_last5: homeFormRaw.reduce((a: number, f: any) => a + (f.goals?.home ?? 0), 0),
-        goals_conceded_last5: homeFormRaw.reduce((a: number, f: any) => a + (f.goals?.away ?? 0), 0),
+        goals_scored_last5: homeFormRaw.reduce((a: number, f: any) => {
+          const isHome = f.teams?.home?.id === homeTeamAfId
+          return a + ((isHome ? f.goals?.home : f.goals?.away) ?? 0)
+        }, 0),
+        goals_conceded_last5: homeFormRaw.reduce((a: number, f: any) => {
+          const isHome = f.teams?.home?.id === homeTeamAfId
+          return a + ((isHome ? f.goals?.away : f.goals?.home) ?? 0)
+        }, 0),
         updated_at: new Date().toISOString(),
       }, { onConflict: 'team_id' })
     }
     if (!awayFormCache && Array.isArray(awayFormRaw) && awayFormRaw.length) {
+      const awayTeamAfId = match.away_team.api_football_id
       await supabaseAdmin.from('team_form').upsert({
         team_id: match.away_team.id,
         last_5_results: awayFormRaw,
-        goals_scored_last5: awayFormRaw.reduce((a: number, f: any) => a + (f.goals?.away ?? 0), 0),
-        goals_conceded_last5: awayFormRaw.reduce((a: number, f: any) => a + (f.goals?.home ?? 0), 0),
+        goals_scored_last5: awayFormRaw.reduce((a: number, f: any) => {
+          const isHome = f.teams?.home?.id === awayTeamAfId
+          return a + ((isHome ? f.goals?.home : f.goals?.away) ?? 0)
+        }, 0),
+        goals_conceded_last5: awayFormRaw.reduce((a: number, f: any) => {
+          const isHome = f.teams?.home?.id === awayTeamAfId
+          return a + ((isHome ? f.goals?.away : f.goals?.home) ?? 0)
+        }, 0),
         updated_at: new Date().toISOString(),
       }, { onConflict: 'team_id' })
     }
