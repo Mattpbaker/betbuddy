@@ -1,0 +1,595 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #080c10;
+    color: #e0e6f0;
+    font-family: 'Inter', sans-serif;
+    padding: 32px 24px 48px;
+  }
+
+  h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #5a6a7e;
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    background: #0d1117;
+    border: 1px solid #1c2535;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+  }
+
+  .card:hover { border-color: #2a9d5c; transform: translateY(-2px); }
+  .card.selected { border-color: #2a9d5c; box-shadow: 0 0 0 1px #2a9d5c, 0 0 20px rgba(42,157,92,0.15); }
+  .card.selected::after {
+    content: '✓ SELECTED';
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #2a9d5c;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 3px 7px;
+    border-radius: 4px;
+  }
+
+  .card-image {
+    padding: 18px 18px 0;
+    height: 240px;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .card-body {
+    padding: 16px 18px 20px;
+    border-top: 1px solid #1c2535;
+    margin-top: 18px;
+  }
+
+  .card-body h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .card-body p {
+    font-size: 12px;
+    color: #5a6a7e;
+    line-height: 1.5;
+  }
+
+  /* ---- MOCKUP STYLES ---- */
+  .mock {
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #1c2535;
+    display: flex;
+    flex-direction: column;
+    font-size: 9px;
+    background: #060a0e;
+  }
+
+  .mock-topbar {
+    background: #0d1117;
+    border-bottom: 1px solid #1c2535;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .mock-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #2a9d5c;
+    letter-spacing: 0.1em;
+  }
+
+  .mock-topbar-links {
+    display: flex;
+    gap: 8px;
+    margin-left: 8px;
+  }
+
+  .mock-link {
+    color: #3a4a5e;
+    font-size: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .mock-link.active { color: #e0e6f0; }
+
+  .mock-slip-btn {
+    margin-left: auto;
+    background: #2a9d5c;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 8px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .mock-body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .mock-sidebar {
+    width: 44px;
+    background: #0a0e13;
+    border-right: 1px solid #1c2535;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .mock-nav-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: #1c2535;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+  }
+
+  .mock-nav-icon.active { background: #2a9d5c22; }
+
+  .mock-nav-icon svg {
+    width: 10px; height: 10px;
+    stroke: #3a4a5e;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .mock-nav-icon.active svg { stroke: #2a9d5c; }
+
+  .mock-main {
+    flex: 1;
+    padding: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mock-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: #3a4a5e;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .mock-match-row {
+    background: #0d1117;
+    border: 1px solid #1c2535;
+    border-radius: 3px;
+    padding: 4px 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .mock-league-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #2a9d5c;
+    flex-shrink: 0;
+  }
+
+  .mock-league-dot.cup { background: #e6a817; }
+  .mock-league-dot.ecl { background: #3b82f6; }
+
+  .mock-teams {
+    flex: 1;
+    color: #8a9ab0;
+    font-size: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .mock-teams strong { color: #c0ccd8; font-weight: 500; }
+
+  .mock-odds-chip {
+    background: #1c2535;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: #5a6a7e;
+  }
+
+  .mock-report-btn {
+    background: #2a9d5c18;
+    border: 1px solid #2a9d5c44;
+    color: #2a9d5c;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-size: 7px;
+  }
+
+  .mock-right-panel {
+    width: 72px;
+    border-left: 1px solid #1c2535;
+    background: #0a0e13;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .mock-panel-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #2a9d5c;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #1c2535;
+    padding-bottom: 4px;
+    margin-bottom: 2px;
+  }
+
+  .mock-slip-row {
+    background: #1c2535;
+    border-radius: 2px;
+    padding: 3px 4px;
+    font-size: 7px;
+    color: #8a9ab0;
+  }
+
+  .mock-slip-total {
+    margin-top: auto;
+    border-top: 1px solid #1c2535;
+    padding-top: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: #2a9d5c;
+  }
+
+  /* Layout B: full width with floating slip */
+  .mock-match-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+
+  .mock-match-card {
+    background: #0d1117;
+    border: 1px solid #1c2535;
+    border-radius: 3px;
+    padding: 4px 5px;
+  }
+
+  .mock-match-card .teams {
+    font-size: 7px;
+    color: #c0ccd8;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .mock-odds-row {
+    display: flex;
+    gap: 2px;
+  }
+
+  .mock-float-slip {
+    position: absolute;
+    bottom: 60px;
+    right: 18px;
+    background: #0d1117;
+    border: 1px solid #2a9d5c;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 7px;
+    font-family: 'DM Mono', monospace;
+    color: #2a9d5c;
+    box-shadow: 0 0 12px rgba(42,157,92,0.2);
+  }
+
+  /* Layout C: three panel */
+  .mock-left-list {
+    width: 80px;
+    border-right: 1px solid #1c2535;
+    background: #0a0e13;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .mock-list-item {
+    padding: 3px 4px;
+    border-radius: 2px;
+    font-size: 7px;
+    color: #5a6a7e;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .mock-list-item.active {
+    background: #2a9d5c10;
+    border-color: #2a9d5c44;
+    color: #c0ccd8;
+  }
+
+  .mock-center {
+    flex: 1;
+    padding: 6px;
+    overflow: hidden;
+  }
+
+  .mock-report-block {
+    background: #0d1117;
+    border: 1px solid #1c2535;
+    border-radius: 3px;
+    padding: 5px 6px;
+    margin-bottom: 3px;
+  }
+
+  .mock-report-block .title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .mock-report-block .body {
+    font-size: 7px;
+    color: #5a6a7e;
+    line-height: 1.4;
+  }
+
+  .mock-bet-tag {
+    display: inline-block;
+    background: #2a9d5c20;
+    border: 1px solid #2a9d5c44;
+    color: #2a9d5c;
+    font-size: 6px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+</style>
+
+<h2>Choose Your Layout</h2>
+<p class="subtitle">Three dashboard layouts — pick the structure that feels right for how you'll use the app</p>
+
+<div class="cards">
+
+  <!-- OPTION A: Sidebar nav + main + slide-out slip -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock" style="height:100%">
+        <div class="mock-topbar">
+          <div class="mock-logo">BETBUDDY</div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:4px">
+            <div class="mock-slip-btn">BET SLIP (3)</div>
+          </div>
+        </div>
+        <div class="mock-body" style="flex:1">
+          <div class="mock-sidebar">
+            <div class="mock-nav-icon active">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </div>
+            <div class="mock-nav-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            </div>
+            <div class="mock-nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77"/></svg>
+            </div>
+            <div class="mock-nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-section-label">Premier League · 3 matches today</div>
+            <div class="mock-match-row">
+              <div class="mock-league-dot"></div>
+              <div class="mock-teams"><strong>Arsenal</strong> vs <strong>Chelsea</strong></div>
+              <div class="mock-odds-chip">1.85</div>
+              <div class="mock-report-btn">AI</div>
+            </div>
+            <div class="mock-match-row">
+              <div class="mock-league-dot"></div>
+              <div class="mock-teams"><strong>Man City</strong> vs <strong>Liverpool</strong></div>
+              <div class="mock-odds-chip">2.10</div>
+              <div class="mock-report-btn">AI</div>
+            </div>
+            <div class="mock-section-label" style="margin-top:4px">Champions League · 2 matches</div>
+            <div class="mock-match-row">
+              <div class="mock-league-dot ecl"></div>
+              <div class="mock-teams"><strong>Real Madrid</strong> vs <strong>PSG</strong></div>
+              <div class="mock-odds-chip">2.40</div>
+              <div class="mock-report-btn">AI</div>
+            </div>
+            <div class="mock-match-row">
+              <div class="mock-league-dot ecl"></div>
+              <div class="mock-teams"><strong>Bayern</strong> vs <strong>Inter</strong></div>
+              <div class="mock-odds-chip">1.70</div>
+              <div class="mock-report-btn">AI</div>
+            </div>
+          </div>
+          <div class="mock-right-panel">
+            <div class="mock-panel-title">Bet Slip</div>
+            <div class="mock-slip-row">Arsenal Win<br><span style="color:#2a9d5c">1.85</span></div>
+            <div class="mock-slip-row">BTTS — UCL<br><span style="color:#2a9d5c">1.72</span></div>
+            <div class="mock-slip-row">O2.5 Goals<br><span style="color:#2a9d5c">1.60</span></div>
+            <div class="mock-slip-total">×5.09 · £50 → £254</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Dashboard + Persistent Slip</h3>
+      <p>Sidebar navigation, match list in the centre, bet slip always visible on the right. Good for quick scanning and building slips without losing your place.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B: Top nav + grid + floating slip -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock" style="height:100%; position:relative">
+        <div class="mock-topbar">
+          <div class="mock-logo">BETBUDDY</div>
+          <div class="mock-topbar-links">
+            <span class="mock-link active">MATCHES</span>
+            <span class="mock-link">REPORTS</span>
+            <span class="mock-link">DATABASE</span>
+          </div>
+          <div style="margin-left:auto">
+            <div class="mock-slip-btn">◉ SLIP (3)</div>
+          </div>
+        </div>
+        <div style="padding:6px; display:flex; flex-direction:column; gap:5px; flex:1">
+          <div style="display:flex; gap:4px; flex-wrap:wrap;">
+            <div style="background:#2a9d5c18; border:1px solid #2a9d5c44; border-radius:3px; padding:2px 6px; font-size:7px; color:#2a9d5c; font-family:'DM Mono',monospace;">PL</div>
+            <div style="background:#1c2535; border-radius:3px; padding:2px 6px; font-size:7px; color:#5a6a7e; font-family:'DM Mono',monospace;">UCL</div>
+            <div style="background:#1c2535; border-radius:3px; padding:2px 6px; font-size:7px; color:#5a6a7e; font-family:'DM Mono',monospace;">LA LIGA</div>
+            <div style="background:#1c2535; border-radius:3px; padding:2px 6px; font-size:7px; color:#5a6a7e; font-family:'DM Mono',monospace;">SERIE A</div>
+          </div>
+          <div class="mock-match-grid">
+            <div class="mock-match-card">
+              <div class="mock-league-dot" style="margin-bottom:3px"></div>
+              <div class="teams">Arsenal vs Chelsea</div>
+              <div class="mock-odds-row">
+                <div class="mock-odds-chip" style="flex:1;text-align:center">1H 1.85</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">X 3.20</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">2H 4.10</div>
+              </div>
+            </div>
+            <div class="mock-match-card">
+              <div class="mock-league-dot" style="margin-bottom:3px"></div>
+              <div class="teams">Man City vs Liverpool</div>
+              <div class="mock-odds-row">
+                <div class="mock-odds-chip" style="flex:1;text-align:center">1H 2.10</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">X 3.50</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">2H 3.20</div>
+              </div>
+            </div>
+            <div class="mock-match-card">
+              <div class="mock-league-dot ecl" style="margin-bottom:3px"></div>
+              <div class="teams">Real Madrid vs PSG</div>
+              <div class="mock-odds-row">
+                <div class="mock-odds-chip" style="flex:1;text-align:center">1H 2.40</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">X 3.10</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">2H 2.90</div>
+              </div>
+            </div>
+            <div class="mock-match-card">
+              <div class="mock-league-dot cup" style="margin-bottom:3px"></div>
+              <div class="teams">Bayern vs Inter Milan</div>
+              <div class="mock-odds-row">
+                <div class="mock-odds-chip" style="flex:1;text-align:center">1H 1.70</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">X 3.80</div>
+                <div class="mock-odds-chip" style="flex:1;text-align:center">2H 4.50</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock-float-slip">◉ SLIP · 3 BETS · £254</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Match Grid + Floating Slip</h3>
+      <p>Top navigation, matches in a card grid filtered by competition, bet slip as a floating button/drawer. Maximises space for browsing matches.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C: Three-panel command centre -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock" style="height:100%">
+        <div class="mock-topbar">
+          <div class="mock-logo">BETBUDDY</div>
+          <div style="margin-left:auto; font-family:'DM Mono',monospace; font-size:7px; color:#3a4a5e">SAT 5 APR · 12 MATCHES</div>
+        </div>
+        <div class="mock-body" style="flex:1">
+          <div class="mock-left-list">
+            <div class="mock-section-label">Today</div>
+            <div class="mock-list-item active">Arsenal vs Chelsea</div>
+            <div class="mock-list-item">Man City vs LFC</div>
+            <div class="mock-list-item">R.Madrid vs PSG</div>
+            <div class="mock-list-item">Bayern vs Inter</div>
+            <div class="mock-section-label" style="margin-top:4px">Tomorrow</div>
+            <div class="mock-list-item">Barca vs Atletico</div>
+            <div class="mock-list-item">Juve vs Napoli</div>
+          </div>
+          <div class="mock-center">
+            <div class="mock-report-block">
+              <div class="title">Arsenal vs Chelsea</div>
+              <div class="body">Arsenal in strong form — 4W 1D last 5. Chelsea missing Reece James (hamstring). Head-to-head favours Arsenal at Emirates 4-1 in last 5 meetings...</div>
+              <div>
+                <span class="mock-bet-tag">Arsenal Win 1.85</span>
+                <span class="mock-bet-tag">O2.5 Goals 1.60</span>
+                <span class="mock-bet-tag">BTTS 1.72</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:3px">
+              <div class="mock-odds-chip" style="flex:1;text-align:center;padding:4px">1H 1.85</div>
+              <div class="mock-odds-chip" style="flex:1;text-align:center;padding:4px">X 3.20</div>
+              <div class="mock-odds-chip" style="flex:1;text-align:center;padding:4px">2H 4.10</div>
+            </div>
+          </div>
+          <div class="mock-right-panel">
+            <div class="mock-panel-title">Slip</div>
+            <div class="mock-slip-row">Arsenal Win<br><span style="color:#2a9d5c">1.85</span></div>
+            <div class="mock-slip-row">BTTS<br><span style="color:#2a9d5c">1.72</span></div>
+            <div class="mock-slip-total">×3.18<br>£50 → £159</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Command Centre (3 Panels)</h3>
+      <p>Match list left, AI report + odds centre, bet slip right. Everything visible at once. Best if you primarily use it to read reports and build slips match-by-match.</p>
+    </div>
+  </div>
+
+</div>

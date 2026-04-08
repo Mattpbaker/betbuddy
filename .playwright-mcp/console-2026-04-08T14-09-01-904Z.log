@@ -1,0 +1,2 @@
+[    1364ms] [WARNING] Non-existing tag "Seasons" is added to the group "Endpoints" @ https://cdn.redoc.ly/redoc/v2.0.0/bundles/redoc.standalone.js:749
+[    1389ms] [WARNING] "x-code-samples" is deprecated. Use "x-codeSamples" instead @ https://cdn.redoc.ly/redoc/v2.0.0/bundles/redoc.standalone.js:38

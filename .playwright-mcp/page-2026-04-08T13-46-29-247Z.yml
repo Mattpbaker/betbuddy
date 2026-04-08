@@ -1,0 +1,26 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: Betbuddy
+  - generic [ref=e4]:
+    - navigation [ref=e5]:
+      - link "⊞" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - link "📋" [ref=e7] [cursor=pointer]:
+        - /url: /slip
+    - main [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: CHAMPIONS LEAGUE
+          - generic [ref=e13]:
+            - heading "Paris Saint Germain" [level=1] [ref=e14]
+            - generic [ref=e15]: VS
+            - heading "Liverpool" [level=1] [ref=e16]
+          - generic [ref=e18]: 📅 Wednesday 8 April · 19:00
+        - heading "Odds" [level=2] [ref=e20]
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: No report generated yet
+          - button "Generate AI Report" [ref=e23]
+    - complementary [ref=e24]:
+      - generic [ref=e26]: Bet Slip
+      - paragraph [ref=e28]: No selections yet
+  - alert [ref=e29]
