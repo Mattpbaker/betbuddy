@@ -1,22 +1,22 @@
 // app/api/sync/odds/route.ts
 import { NextResponse } from 'next/server'
-import { createOddsAPIClient, ODDS_SPORT_KEYS, MARKETS } from '@/lib/odds-api'
+import { createAPIFootballClient } from '@/lib/api-football'
 import { supabaseAdmin } from '@/lib/supabase'
 
-const COMPETITION_TO_SPORT_KEY = Object.fromEntries(
-  Object.entries(ODDS_SPORT_KEYS).map(([comp, key]) => [comp, key])
-)
+// Bet IDs we care about — filter to these to avoid storing irrelevant markets
+// 1=Match Winner, 5=Goals Over/Under, 6=Both Teams Score, 4=Double Chance, 8=First Half Winner
+const WANTED_BET_IDS = new Set([1, 4, 5, 6, 8])
 
 export async function POST() {
   try {
-    const client = createOddsAPIClient()
+    const client = createAPIFootballClient()
     let totalUpserted = 0
 
     const { data: matches, error } = await supabaseAdmin
       .from('matches')
-      .select('id, odds_event_id, competition')
-      .eq('status', 'scheduled')
-      .not('odds_event_id', 'is', null)
+      .select('id, api_football_id')
+      .eq('status', 'NS')
+      .not('api_football_id', 'is', null)
 
     if (error) throw new Error(`Failed to load matches: ${error.message}`)
     if (!matches || matches.length === 0) {
@@ -26,19 +26,46 @@ export async function POST() {
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
     for (const match of matches) {
-      const sportKey = COMPETITION_TO_SPORT_KEY[match.competition]
-      if (!sportKey) continue
-
       await sleep(200)
 
-      let event
+      let oddsData
       try {
-        event = await client.getEventOdds(sportKey, match.odds_event_id, MARKETS)
+        oddsData = await client.getOddsForFixture(match.api_football_id)
       } catch {
         continue
       }
 
-      const flatOdds = client.flattenOdds(event, match.id)
+      if (!oddsData || oddsData.length === 0) continue
+
+      const fixtureOdds = oddsData[0]
+      if (!fixtureOdds?.bookmakers?.length) continue
+
+      // Use the first available bookmaker
+      const bookmaker = fixtureOdds.bookmakers[0]
+
+      const flatOdds: {
+        match_id: string
+        market: string
+        selection: string
+        value: number
+        bookmaker: string
+      }[] = []
+
+      for (const bet of bookmaker.bets) {
+        if (!WANTED_BET_IDS.has(bet.id)) continue
+        for (const v of bet.values) {
+          const decimal = parseFloat(v.odd)
+          if (isNaN(decimal)) continue
+          flatOdds.push({
+            match_id: match.id,
+            market: bet.name,
+            selection: v.value,
+            value: decimal,
+            bookmaker: bookmaker.name,
+          })
+        }
+      }
+
       if (flatOdds.length === 0) continue
 
       const { error: upsertError } = await supabaseAdmin.from('odds').upsert(flatOdds, {
