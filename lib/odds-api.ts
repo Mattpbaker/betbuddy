@@ -9,10 +9,10 @@ export const ODDS_SPORT_KEYS: Record<string, string> = {
   'Bundesliga': 'soccer_germany_bundesliga',
   'Serie A': 'soccer_italy_serie_a',
   'Ligue 1': 'soccer_france_ligue_one',
-  'FA Cup': 'soccer_england_league_cup',
+  'FA Cup': 'soccer_fa_cup',
   'Copa del Rey': 'soccer_spain_copa_del_rey',
   'DFB-Pokal': 'soccer_germany_dfb_pokal',
-  'Coppa Italia': 'soccer_italy_coppa_italia',
+  'Coppa Italia': 'soccer_italy_coppa_italia', // currently inactive, will return no fixtures
   'Coupe de France': 'soccer_france_coupe_de_france',
   'Champions League': 'soccer_uefa_champs_league',
   'Europa League': 'soccer_uefa_europa_league',
