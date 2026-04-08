@@ -41,8 +41,9 @@ export async function POST() {
           country: '',
         }
 
-        // Upsert teams on name+competition so existing rows (with api_football_id=null) get updated
-        const [{ error: homeErr }, { error: awayErr }] = await Promise.all([
+        // Upsert teams — ignore errors (api_football_id unique constraint fires when same team
+        // appears in multiple competitions; team row still exists and we can look it up by name)
+        await Promise.all([
           supabaseAdmin.from('teams').upsert(homeTeamData, {
             onConflict: 'name,competition',
             ignoreDuplicates: false,
@@ -51,19 +52,6 @@ export async function POST() {
             onConflict: 'name,competition',
             ignoreDuplicates: false,
           }),
-        ])
-
-        if (homeErr || awayErr) {
-          console.error(`Team upsert error for ${f.teams.home.name} vs ${f.teams.away.name}:`, homeErr?.message ?? awayErr?.message)
-          continue
-        }
-
-        // Also explicitly set api_football_id in case upsert didn't update it
-        await Promise.all([
-          supabaseAdmin.from('teams').update({ api_football_id: f.teams.home.id, logo_url: f.teams.home.logo })
-            .eq('name', f.teams.home.name).eq('competition', competition),
-          supabaseAdmin.from('teams').update({ api_football_id: f.teams.away.id, logo_url: f.teams.away.logo })
-            .eq('name', f.teams.away.name).eq('competition', competition),
         ])
 
         // Fetch team UUIDs by name+competition (reliable regardless of api_football_id state)
