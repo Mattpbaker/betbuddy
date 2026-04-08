@@ -4,7 +4,7 @@ import type { Match } from '@/types'
 
 async function getUpcomingMatches(): Promise<Record<string, Match[]>> {
   const sevenDaysFromNow = new Date()
-  sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7)
+  sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 14)
 
   const { data, error } = await supabase
     .from('matches')
