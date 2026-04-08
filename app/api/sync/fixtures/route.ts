@@ -8,12 +8,14 @@ export async function POST() {
     const client = createOddsAPIClient()
     let totalUpserted = 0
 
+    const errors: Record<string, string> = {}
+
     for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
       let fixtures
       try {
         fixtures = await client.getEvents(sportKey)
-      } catch {
-        // Competition may not be active right now — skip gracefully
+      } catch (err) {
+        errors[competition] = String(err)
         continue
       }
 
@@ -52,7 +54,7 @@ export async function POST() {
       }
     }
 
-    return NextResponse.json({ success: true, upserted: totalUpserted })
+    return NextResponse.json({ success: true, upserted: totalUpserted, errors })
   } catch (err) {
     console.error('Fixtures sync error:', err)
     return NextResponse.json({ error: String(err) }, { status: 500 })
