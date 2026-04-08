@@ -63,7 +63,7 @@ export async function POST() {
 
         if (!homeTeam || !awayTeam) continue
 
-        await supabaseAdmin.from('matches').upsert({
+        const { error: matchErr } = await supabaseAdmin.from('matches').upsert({
           api_football_id: f.fixture.id,
           home_team_id: homeTeam.id,
           away_team_id: awayTeam.id,
@@ -74,6 +74,7 @@ export async function POST() {
           round: f.league.round,
         }, { onConflict: 'api_football_id', ignoreDuplicates: false })
 
+        if (matchErr) continue
         totalUpserted++
       }
     }
