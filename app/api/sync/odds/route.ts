@@ -31,7 +31,8 @@ export async function POST() {
       let oddsData
       try {
         oddsData = await client.getOddsForFixture(match.api_football_id)
-      } catch {
+      } catch (err) {
+        console.error(`Failed to fetch odds for fixture ${match.api_football_id}:`, err)
         continue
       }
 
