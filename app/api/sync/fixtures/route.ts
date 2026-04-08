@@ -58,10 +58,18 @@ export async function POST() {
           continue
         }
 
-        // Fetch team UUIDs (now guaranteed to have api_football_id set)
+        // Also explicitly set api_football_id in case upsert didn't update it
+        await Promise.all([
+          supabaseAdmin.from('teams').update({ api_football_id: f.teams.home.id, logo_url: f.teams.home.logo })
+            .eq('name', f.teams.home.name).eq('competition', competition),
+          supabaseAdmin.from('teams').update({ api_football_id: f.teams.away.id, logo_url: f.teams.away.logo })
+            .eq('name', f.teams.away.name).eq('competition', competition),
+        ])
+
+        // Fetch team UUIDs by name+competition (reliable regardless of api_football_id state)
         const [{ data: homeTeam }, { data: awayTeam }] = await Promise.all([
-          supabaseAdmin.from('teams').select('id').eq('api_football_id', f.teams.home.id).single(),
-          supabaseAdmin.from('teams').select('id').eq('api_football_id', f.teams.away.id).single(),
+          supabaseAdmin.from('teams').select('id').eq('name', f.teams.home.name).eq('competition', competition).single(),
+          supabaseAdmin.from('teams').select('id').eq('name', f.teams.away.name).eq('competition', competition).single(),
         ])
 
         if (!homeTeam || !awayTeam) continue
