@@ -17,7 +17,7 @@ interface Props {
 
 export function OddsPanel({ odds, matchId }: Props) {
   const markets = [...new Set(odds.map(o => o.market))].filter(m => MARKET_LABELS[m])
-  const [activeMarket, setActiveMarket] = useState(markets[0] ?? 'h2h')
+  const [activeMarket, setActiveMarket] = useState(markets[0] ?? 'Match Winner')
   const [selected, setSelected] = useState<Set<string>>(new Set())
 
   const marketOdds = odds.filter(o => o.market === activeMarket)
