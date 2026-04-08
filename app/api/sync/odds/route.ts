@@ -43,10 +43,15 @@ export async function POST() {
       const flatOdds = client.flattenOdds(event, match.id)
       if (flatOdds.length === 0) continue
 
-      await supabaseAdmin.from('odds').upsert(flatOdds, {
+      const { error: upsertError } = await supabaseAdmin.from('odds').upsert(flatOdds, {
         onConflict: 'match_id,market,selection',
         ignoreDuplicates: false,
       })
+
+      if (upsertError) {
+        console.error(`Odds upsert error for match ${match.id}:`, upsertError.message)
+        continue
+      }
 
       totalUpserted += flatOdds.length
     }
