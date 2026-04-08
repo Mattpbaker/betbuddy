@@ -7,9 +7,6 @@ export async function POST() {
   try {
     const client = createOddsAPIClient()
     let totalUpserted = 0
-
-    const errors: Record<string, string> = {}
-    const counts: Record<string, number> = {}
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
     for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
@@ -17,15 +14,11 @@ export async function POST() {
       let fixtures
       try {
         fixtures = await client.getEvents(sportKey)
-      } catch (err) {
-        errors[competition] = String(err)
+      } catch {
         continue
       }
 
-      counts[competition] = fixtures.length
-
       for (const f of fixtures) {
-        // Upsert home and away teams
         const [{ error: homeErr }, { error: awayErr }] = await Promise.all([
           supabaseAdmin.from('teams').upsert(
             { name: f.home_team, competition, country: '' },
@@ -37,12 +30,8 @@ export async function POST() {
           ),
         ])
 
-        if (homeErr || awayErr) {
-          errors[competition] = (homeErr ?? awayErr)!.message
-          break
-        }
+        if (homeErr || awayErr) continue
 
-        // Fetch team UUIDs
         const [{ data: homeTeam }, { data: awayTeam }] = await Promise.all([
           supabaseAdmin.from('teams').select('id').eq('name', f.home_team).eq('competition', competition).single(),
           supabaseAdmin.from('teams').select('id').eq('name', f.away_team).eq('competition', competition).single(),
@@ -50,7 +39,6 @@ export async function POST() {
 
         if (!homeTeam || !awayTeam) continue
 
-        // Upsert match
         await supabaseAdmin.from('matches').upsert({
           odds_event_id: f.id,
           home_team_id: homeTeam.id,
@@ -64,7 +52,7 @@ export async function POST() {
       }
     }
 
-    return NextResponse.json({ success: true, upserted: totalUpserted, counts, errors })
+    return NextResponse.json({ success: true, upserted: totalUpserted })
   } catch (err) {
     console.error('Fixtures sync error:', err)
     return NextResponse.json({ error: String(err) }, { status: 500 })
