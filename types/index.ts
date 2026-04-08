@@ -18,17 +18,24 @@ export interface Player {
 
 export interface Match {
   id: string
-  api_football_id: number
+  api_football_id: number | null
   home_team_id: string
   away_team_id: string
   competition: string
   match_date: string
   venue: string | null
   status: string
+  round: string | null
+  home_score: number | null
+  away_score: number | null
+  ht_home_score: number | null
+  ht_away_score: number | null
   home_team?: Team
   away_team?: Team
   odds?: Odd[]
-  report?: Report
+  report?: Report | Report[]
+  lineups?: MatchLineup[]
+  prediction?: MatchPrediction
 }
 
 export interface MatchResult {
@@ -156,4 +163,30 @@ export interface BetSlipItem {
   odds: number
   report_id: string | null
   match?: Match
+}
+
+export interface MatchLineup {
+  id: string
+  match_id: string
+  team_id: string
+  formation: string | null
+  start_xi: { id: number; name: string; number: number; position: string }[]
+  substitutes: { id: number; name: string; number: number; position: string }[]
+  coach_name: string | null
+}
+
+export interface MatchPrediction {
+  id: string
+  match_id: string
+  winner_team_id: number | null
+  winner_name: string | null
+  win_or_draw: boolean
+  under_over: string | null
+  advice: string | null
+  home_win_percent: string | null
+  draw_percent: string | null
+  away_win_percent: string | null
+  home_form: string | null
+  away_form: string | null
+  comparison: Record<string, { home: string; away: string }> | null
 }
