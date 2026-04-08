@@ -1,0 +1,135 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: Betbuddy
+  - generic [ref=e4]:
+    - navigation [ref=e5]:
+      - link "⊞" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - link "📋" [ref=e7] [cursor=pointer]:
+        - /url: /slip
+    - main [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - heading "Upcoming Matches" [level=1] [ref=e11]
+          - generic [ref=e12]:
+            - button "SYNC FIXTURES" [ref=e14]
+            - button "SYNC ODDS" [ref=e16]
+            - button "SYNC RICH" [ref=e18]
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - heading "Bundesliga · 1 matches" [level=2] [ref=e23]
+            - generic [ref=e25]:
+              - generic [ref=e26]:
+                - generic [ref=e27]: Fri 10 Apr
+                - generic [ref=e28]: 19:30
+              - link "FC Augsburg vs 1899 Hoffenheim" [ref=e29] [cursor=pointer]:
+                - /url: /matches/aeca4192-a678-4715-ba6f-ad56f6e1e7c5
+                - generic [ref=e30]:
+                  - generic [ref=e31]: FC Augsburg
+                  - generic [ref=e32]: vs
+                  - generic [ref=e33]: 1899 Hoffenheim
+              - generic [ref=e34]:
+                - button "1 3.20" [ref=e35]
+                - button "X 3.70" [ref=e36]
+                - button "2 2.06" [ref=e37]
+              - generic [ref=e38]:
+                - generic [ref=e39]: AI READY
+                - link "VIEW →" [ref=e40] [cursor=pointer]:
+                  - /url: /matches/aeca4192-a678-4715-ba6f-ad56f6e1e7c5
+          - generic [ref=e41]:
+            - heading "Premier League · 3 matches" [level=2] [ref=e44]
+            - generic [ref=e45]:
+              - generic [ref=e46]:
+                - generic [ref=e47]:
+                  - generic [ref=e48]: Fri 10 Apr
+                  - generic [ref=e49]: 20:00
+                - link "West Ham vs Wolves" [ref=e50] [cursor=pointer]:
+                  - /url: /matches/5d9bb2d7-00ee-4c4d-8d5c-d3691b0dc4a7
+                  - generic [ref=e51]:
+                    - generic [ref=e52]: West Ham
+                    - generic [ref=e53]: vs
+                    - generic [ref=e54]: Wolves
+                - generic [ref=e55]:
+                  - button "1 1.81" [ref=e56]
+                  - button "X 3.65" [ref=e57]
+                  - button "2 4.10" [ref=e58]
+                - generic [ref=e59]:
+                  - generic [ref=e60]: AI READY
+                  - link "VIEW →" [ref=e61] [cursor=pointer]:
+                    - /url: /matches/5d9bb2d7-00ee-4c4d-8d5c-d3691b0dc4a7
+              - generic [ref=e62]:
+                - generic [ref=e63]:
+                  - generic [ref=e64]: Sat 18 Apr
+                  - generic [ref=e65]: 15:00
+                - link "Leeds vs Wolves" [ref=e66] [cursor=pointer]:
+                  - /url: /matches/805920b9-b3a3-4340-b8f7-c5bc726a0762
+                  - generic [ref=e67]:
+                    - generic [ref=e68]: Leeds
+                    - generic [ref=e69]: vs
+                    - generic [ref=e70]: Wolves
+                - generic [ref=e71]:
+                  - button "1 1.70" [ref=e72]
+                  - button "X 3.75" [ref=e73]
+                  - button "2 4.70" [ref=e74]
+                - generic [ref=e75]:
+                  - generic [ref=e76]: NO REPORT
+                  - link "VIEW →" [ref=e77] [cursor=pointer]:
+                    - /url: /matches/805920b9-b3a3-4340-b8f7-c5bc726a0762
+              - generic [ref=e78]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]: Sat 18 Apr
+                  - generic [ref=e81]: 17:30
+                - link "Tottenham vs Brighton" [ref=e82] [cursor=pointer]:
+                  - /url: /matches/c124cbe1-8282-4610-9669-b0b01726ecc6
+                  - generic [ref=e83]:
+                    - generic [ref=e84]: Tottenham
+                    - generic [ref=e85]: vs
+                    - generic [ref=e86]: Brighton
+                - generic [ref=e87]:
+                  - button "1 2.54" [ref=e88]
+                  - button "X 3.55" [ref=e89]
+                  - button "2 2.54" [ref=e90]
+                - generic [ref=e91]:
+                  - generic [ref=e92]: NO REPORT
+                  - link "VIEW →" [ref=e93] [cursor=pointer]:
+                    - /url: /matches/c124cbe1-8282-4610-9669-b0b01726ecc6
+          - generic [ref=e94]:
+            - heading "La Liga · 1 matches" [level=2] [ref=e97]
+            - generic [ref=e99]:
+              - generic [ref=e100]:
+                - generic [ref=e101]: Tue 21 Apr
+                - generic [ref=e102]: 18:00
+              - link "Athletic Club vs Osasuna" [ref=e103] [cursor=pointer]:
+                - /url: /matches/b27ce983-572b-49f3-aad6-a0cac446d1e7
+                - generic [ref=e104]:
+                  - generic [ref=e105]: Athletic Club
+                  - generic [ref=e106]: vs
+                  - generic [ref=e107]: Osasuna
+              - generic [ref=e108]:
+                - button "1 1.84" [ref=e109]
+                - button "X 3.35" [ref=e110]
+                - button "2 4.35" [ref=e111]
+              - generic [ref=e112]:
+                - generic [ref=e113]: NO REPORT
+                - link "VIEW →" [ref=e114] [cursor=pointer]:
+                  - /url: /matches/b27ce983-572b-49f3-aad6-a0cac446d1e7
+          - generic [ref=e115]:
+            - heading "Coppa Italia · 1 matches" [level=2] [ref=e118]
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - generic [ref=e122]: Tue 21 Apr
+                - generic [ref=e123]: 20:00
+              - link "Inter vs Como" [ref=e124] [cursor=pointer]:
+                - /url: /matches/b8fc4a1c-adcb-49ec-a0a3-d83bb8e867a6
+                - generic [ref=e125]:
+                  - generic [ref=e126]: Inter
+                  - generic [ref=e127]: vs
+                  - generic [ref=e128]: Como
+              - generic [ref=e129]:
+                - generic [ref=e130]: NO REPORT
+                - link "VIEW →" [ref=e131] [cursor=pointer]:
+                  - /url: /matches/b8fc4a1c-adcb-49ec-a0a3-d83bb8e867a6
+    - complementary [ref=e132]:
+      - generic [ref=e134]: Bet Slip
+      - paragraph [ref=e136]: No selections yet
+  - alert [ref=e137]

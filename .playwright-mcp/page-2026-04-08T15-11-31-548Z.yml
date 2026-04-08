@@ -1,0 +1,43 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: Betbuddy
+  - generic [ref=e4]:
+    - navigation [ref=e5]:
+      - link "⊞" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - link "📋" [ref=e7] [cursor=pointer]:
+        - /url: /slip
+    - main [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: PREMIER LEAGUE
+          - generic [ref=e13]:
+            - heading "West Ham" [level=1] [ref=e14]
+            - generic [ref=e15]: VS
+            - heading "Wolves" [level=1] [ref=e16]
+          - generic [ref=e17]:
+            - generic [ref=e18]: 📅 Friday 10 April · 19:00
+            - generic [ref=e19]: 🏟 London Stadium
+        - generic [ref=e20]:
+          - heading "Odds" [level=2] [ref=e21]
+          - generic [ref=e22]:
+            - button "Match Result (1X2)" [ref=e23]
+            - button "Over / Under Goals" [ref=e24]
+            - button "Both Teams to Score" [ref=e25]
+          - generic [ref=e26]:
+            - button "Home 1.81" [ref=e27]:
+              - generic [ref=e28]: Home
+              - generic [ref=e29]: "1.81"
+            - button "Draw 3.65" [ref=e30]:
+              - generic [ref=e31]: Draw
+              - generic [ref=e32]: "3.65"
+            - button "Away 4.10" [ref=e33]:
+              - generic [ref=e34]: Away
+              - generic [ref=e35]: "4.10"
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: No report generated yet
+          - button "Generate AI Report" [ref=e38]
+    - complementary [ref=e39]:
+      - generic [ref=e41]: Bet Slip
+      - paragraph [ref=e43]: No selections yet
+  - alert [ref=e44]

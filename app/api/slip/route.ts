@@ -57,6 +57,20 @@ export async function POST(req: Request) {
     slip = newSlip
   }
 
+  // Prevent duplicates — same match + market + selection
+  const { data: existing } = await supabaseAdmin
+    .from('bet_slip_items')
+    .select('id')
+    .eq('slip_id', slip!.id)
+    .eq('match_id', matchId)
+    .eq('market', market)
+    .eq('selection', selection)
+    .single()
+
+  if (existing) {
+    return NextResponse.json({ duplicate: true, id: existing.id })
+  }
+
   const { data: item, error } = await supabaseAdmin
     .from('bet_slip_items')
     .insert({

@@ -1,0 +1,62 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: Betbuddy
+  - generic [ref=e4]:
+    - navigation [ref=e5]:
+      - link "⊞" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - link "📋" [ref=e7] [cursor=pointer]:
+        - /url: /slip
+    - main [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - heading "Upcoming Matches" [level=1] [ref=e11]
+          - generic [ref=e12]:
+            - button "SYNC FIXTURES" [ref=e14]
+            - button "SYNC ODDS" [ref=e16]
+            - button "SYNC RICH" [ref=e18]
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - heading "Bundesliga · 1 matches" [level=2] [ref=e23]
+            - generic [ref=e25]:
+              - generic [ref=e26]:
+                - generic [ref=e27]: Fri 10 Apr
+                - generic [ref=e28]: 19:30
+              - link "FC Augsburg vs 1899 Hoffenheim" [ref=e29] [cursor=pointer]:
+                - /url: /matches/aeca4192-a678-4715-ba6f-ad56f6e1e7c5
+                - generic [ref=e30]:
+                  - generic [ref=e31]: FC Augsburg
+                  - generic [ref=e32]: vs
+                  - generic [ref=e33]: 1899 Hoffenheim
+              - generic [ref=e34]:
+                - button "1 3.20" [ref=e35]
+                - button "X 3.70" [ref=e36]
+                - button "2 2.06" [ref=e37]
+              - generic [ref=e38]:
+                - generic [ref=e39]: NO REPORT
+                - link "VIEW →" [ref=e40] [cursor=pointer]:
+                  - /url: /matches/aeca4192-a678-4715-ba6f-ad56f6e1e7c5
+          - generic [ref=e41]:
+            - heading "Premier League · 1 matches" [level=2] [ref=e44]
+            - generic [ref=e46]:
+              - generic [ref=e47]:
+                - generic [ref=e48]: Fri 10 Apr
+                - generic [ref=e49]: 20:00
+              - link "West Ham vs Wolves" [ref=e50] [cursor=pointer]:
+                - /url: /matches/5d9bb2d7-00ee-4c4d-8d5c-d3691b0dc4a7
+                - generic [ref=e51]:
+                  - generic [ref=e52]: West Ham
+                  - generic [ref=e53]: vs
+                  - generic [ref=e54]: Wolves
+              - generic [ref=e55]:
+                - button "1 1.81" [ref=e56]
+                - button "X 3.65" [ref=e57]
+                - button "2 4.10" [ref=e58]
+              - generic [ref=e59]:
+                - generic [ref=e60]: NO REPORT
+                - link "VIEW →" [ref=e61] [cursor=pointer]:
+                  - /url: /matches/5d9bb2d7-00ee-4c4d-8d5c-d3691b0dc4a7
+    - complementary [ref=e62]:
+      - generic [ref=e64]: Bet Slip
+      - paragraph [ref=e66]: No selections yet
+  - alert [ref=e67]

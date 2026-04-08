@@ -1,0 +1,799 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: Betbuddy
+  - generic [ref=e4]:
+    - navigation [ref=e5]:
+      - link "⊞" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - link "📋" [ref=e7] [cursor=pointer]:
+        - /url: /slip
+    - main [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - heading "Upcoming Matches" [level=1] [ref=e11]
+          - generic [ref=e12]:
+            - button "SYNC FIXTURES" [ref=e14]
+            - button "SYNC ODDS" [ref=e16]
+            - button "SYNC RICH" [ref=e18]
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - heading "Europa League · 4 matches" [level=2] [ref=e23]
+            - generic [ref=e24]:
+              - generic [ref=e25]:
+                - generic [ref=e26]:
+                  - generic [ref=e27]: Wed 8 Apr
+                  - generic [ref=e28]: 17:45
+                - link "SC Braga vs Real Betis" [ref=e29] [cursor=pointer]:
+                  - /url: /matches/9fbd98a5-e403-4822-aee0-c660de706fed
+                  - generic [ref=e30]:
+                    - generic [ref=e31]: SC Braga
+                    - generic [ref=e32]: vs
+                    - generic [ref=e33]: Real Betis
+                - generic [ref=e34]:
+                  - generic [ref=e35]: NO REPORT
+                  - link "VIEW →" [ref=e36] [cursor=pointer]:
+                    - /url: /matches/9fbd98a5-e403-4822-aee0-c660de706fed
+              - generic [ref=e37]:
+                - generic [ref=e38]:
+                  - generic [ref=e39]: Thu 9 Apr
+                  - generic [ref=e40]: 20:00
+                - link "Bologna vs Aston Villa" [ref=e41] [cursor=pointer]:
+                  - /url: /matches/fb9ceffe-ba8a-4194-86a8-00ac985372b9
+                  - generic [ref=e42]:
+                    - generic [ref=e43]: Bologna
+                    - generic [ref=e44]: vs
+                    - generic [ref=e45]: Aston Villa
+                - generic [ref=e46]:
+                  - generic [ref=e47]: NO REPORT
+                  - link "VIEW →" [ref=e48] [cursor=pointer]:
+                    - /url: /matches/fb9ceffe-ba8a-4194-86a8-00ac985372b9
+              - generic [ref=e49]:
+                - generic [ref=e50]:
+                  - generic [ref=e51]: Thu 9 Apr
+                  - generic [ref=e52]: 20:00
+                - link "SC Freiburg vs Celta Vigo" [ref=e53] [cursor=pointer]:
+                  - /url: /matches/ce970ebc-3ca9-4a28-a089-73c345864ba8
+                  - generic [ref=e54]:
+                    - generic [ref=e55]: SC Freiburg
+                    - generic [ref=e56]: vs
+                    - generic [ref=e57]: Celta Vigo
+                - generic [ref=e58]:
+                  - generic [ref=e59]: NO REPORT
+                  - link "VIEW →" [ref=e60] [cursor=pointer]:
+                    - /url: /matches/ce970ebc-3ca9-4a28-a089-73c345864ba8
+              - generic [ref=e61]:
+                - generic [ref=e62]:
+                  - generic [ref=e63]: Thu 9 Apr
+                  - generic [ref=e64]: 20:00
+                - link "Porto vs Nottingham Forest" [ref=e65] [cursor=pointer]:
+                  - /url: /matches/f00e2638-7512-4143-867c-a62e632fbdad
+                  - generic [ref=e66]:
+                    - generic [ref=e67]: Porto
+                    - generic [ref=e68]: vs
+                    - generic [ref=e69]: Nottingham Forest
+                - generic [ref=e70]:
+                  - generic [ref=e71]: NO REPORT
+                  - link "VIEW →" [ref=e72] [cursor=pointer]:
+                    - /url: /matches/f00e2638-7512-4143-867c-a62e632fbdad
+          - generic [ref=e73]:
+            - heading "Champions League · 2 matches" [level=2] [ref=e76]
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]: Wed 8 Apr
+                  - generic [ref=e81]: 20:00
+                - link "Paris Saint Germain vs Liverpool" [ref=e82] [cursor=pointer]:
+                  - /url: /matches/d2d50018-fd7d-43f1-85cb-04b1eeee0a34
+                  - generic [ref=e83]:
+                    - generic [ref=e84]: Paris Saint Germain
+                    - generic [ref=e85]: vs
+                    - generic [ref=e86]: Liverpool
+                - generic [ref=e87]:
+                  - generic [ref=e88]: NO REPORT
+                  - link "VIEW →" [ref=e89] [cursor=pointer]:
+                    - /url: /matches/d2d50018-fd7d-43f1-85cb-04b1eeee0a34
+              - generic [ref=e90]:
+                - generic [ref=e91]:
+                  - generic [ref=e92]: Wed 8 Apr
+                  - generic [ref=e93]: 20:00
+                - link "Barcelona vs Atlético Madrid" [ref=e94] [cursor=pointer]:
+                  - /url: /matches/3070ee00-78b9-4616-9c20-f549497ff2a5
+                  - generic [ref=e95]:
+                    - generic [ref=e96]: Barcelona
+                    - generic [ref=e97]: vs
+                    - generic [ref=e98]: Atlético Madrid
+                - generic [ref=e99]:
+                  - generic [ref=e100]: NO REPORT
+                  - link "VIEW →" [ref=e101] [cursor=pointer]:
+                    - /url: /matches/3070ee00-78b9-4616-9c20-f549497ff2a5
+          - generic [ref=e102]:
+            - heading "Ligue 1 · 9 matches" [level=2] [ref=e105]
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - generic [ref=e108]:
+                  - generic [ref=e109]: Fri 10 Apr
+                  - generic [ref=e110]: 18:00
+                - link "Paris FC vs AS Monaco" [ref=e111] [cursor=pointer]:
+                  - /url: /matches/c6212128-ee74-486a-be98-b8948049ff26
+                  - generic [ref=e112]:
+                    - generic [ref=e113]: Paris FC
+                    - generic [ref=e114]: vs
+                    - generic [ref=e115]: AS Monaco
+                - generic [ref=e116]:
+                  - generic [ref=e117]: NO REPORT
+                  - link "VIEW →" [ref=e118] [cursor=pointer]:
+                    - /url: /matches/c6212128-ee74-486a-be98-b8948049ff26
+              - generic [ref=e119]:
+                - generic [ref=e120]:
+                  - generic [ref=e121]: Fri 10 Apr
+                  - generic [ref=e122]: 20:05
+                - link "Marseille vs Metz" [ref=e123] [cursor=pointer]:
+                  - /url: /matches/94f8881d-6f7f-43f2-90b9-e94e92ba3d9f
+                  - generic [ref=e124]:
+                    - generic [ref=e125]: Marseille
+                    - generic [ref=e126]: vs
+                    - generic [ref=e127]: Metz
+                - generic [ref=e128]:
+                  - generic [ref=e129]: NO REPORT
+                  - link "VIEW →" [ref=e130] [cursor=pointer]:
+                    - /url: /matches/94f8881d-6f7f-43f2-90b9-e94e92ba3d9f
+              - generic [ref=e131]:
+                - generic [ref=e132]:
+                  - generic [ref=e133]: Sat 11 Apr
+                  - generic [ref=e134]: 16:00
+                - link "RC Lens vs Paris Saint Germain" [ref=e135] [cursor=pointer]:
+                  - /url: /matches/989d84cc-421f-4e70-91bd-11267b7716af
+                  - generic [ref=e136]:
+                    - generic [ref=e137]: RC Lens
+                    - generic [ref=e138]: vs
+                    - generic [ref=e139]: Paris Saint Germain
+                - generic [ref=e140]:
+                  - generic [ref=e141]: NO REPORT
+                  - link "VIEW →" [ref=e142] [cursor=pointer]:
+                    - /url: /matches/989d84cc-421f-4e70-91bd-11267b7716af
+              - generic [ref=e143]:
+                - generic [ref=e144]:
+                  - generic [ref=e145]: Sat 11 Apr
+                  - generic [ref=e146]: 18:00
+                - link "Auxerre vs Nantes" [ref=e147] [cursor=pointer]:
+                  - /url: /matches/c6d07c31-f795-4168-b547-d17c9b952b2e
+                  - generic [ref=e148]:
+                    - generic [ref=e149]: Auxerre
+                    - generic [ref=e150]: vs
+                    - generic [ref=e151]: Nantes
+                - generic [ref=e152]:
+                  - generic [ref=e153]: NO REPORT
+                  - link "VIEW →" [ref=e154] [cursor=pointer]:
+                    - /url: /matches/c6d07c31-f795-4168-b547-d17c9b952b2e
+              - generic [ref=e155]:
+                - generic [ref=e156]:
+                  - generic [ref=e157]: Sat 11 Apr
+                  - generic [ref=e158]: 20:05
+                - link "Rennes vs Angers" [ref=e159] [cursor=pointer]:
+                  - /url: /matches/0e8eb0c2-1c5a-4e5c-91a6-fe06fb722a55
+                  - generic [ref=e160]:
+                    - generic [ref=e161]: Rennes
+                    - generic [ref=e162]: vs
+                    - generic [ref=e163]: Angers
+                - generic [ref=e164]:
+                  - generic [ref=e165]: NO REPORT
+                  - link "VIEW →" [ref=e166] [cursor=pointer]:
+                    - /url: /matches/0e8eb0c2-1c5a-4e5c-91a6-fe06fb722a55
+              - generic [ref=e167]:
+                - generic [ref=e168]:
+                  - generic [ref=e169]: Sun 12 Apr
+                  - generic [ref=e170]: 16:15
+                - link "Nice vs Le Havre" [ref=e171] [cursor=pointer]:
+                  - /url: /matches/6622b477-d65d-4bf7-a0dc-1484131db5fb
+                  - generic [ref=e172]:
+                    - generic [ref=e173]: Nice
+                    - generic [ref=e174]: vs
+                    - generic [ref=e175]: Le Havre
+                - generic [ref=e176]:
+                  - generic [ref=e177]: NO REPORT
+                  - link "VIEW →" [ref=e178] [cursor=pointer]:
+                    - /url: /matches/6622b477-d65d-4bf7-a0dc-1484131db5fb
+              - generic [ref=e179]:
+                - generic [ref=e180]:
+                  - generic [ref=e181]: Sun 12 Apr
+                  - generic [ref=e182]: 16:15
+                - link "Brest vs Strasbourg" [ref=e183] [cursor=pointer]:
+                  - /url: /matches/18362095-0282-4c32-9f5f-bc9bfa239c8e
+                  - generic [ref=e184]:
+                    - generic [ref=e185]: Brest
+                    - generic [ref=e186]: vs
+                    - generic [ref=e187]: Strasbourg
+                - generic [ref=e188]:
+                  - generic [ref=e189]: NO REPORT
+                  - link "VIEW →" [ref=e190] [cursor=pointer]:
+                    - /url: /matches/18362095-0282-4c32-9f5f-bc9bfa239c8e
+              - generic [ref=e191]:
+                - generic [ref=e192]:
+                  - generic [ref=e193]: Sun 12 Apr
+                  - generic [ref=e194]: 16:15
+                - link "Toulouse vs Lille" [ref=e195] [cursor=pointer]:
+                  - /url: /matches/83bc1654-0066-4343-86b1-b72fa958a151
+                  - generic [ref=e196]:
+                    - generic [ref=e197]: Toulouse
+                    - generic [ref=e198]: vs
+                    - generic [ref=e199]: Lille
+                - generic [ref=e200]:
+                  - generic [ref=e201]: NO REPORT
+                  - link "VIEW →" [ref=e202] [cursor=pointer]:
+                    - /url: /matches/83bc1654-0066-4343-86b1-b72fa958a151
+              - generic [ref=e203]:
+                - generic [ref=e204]:
+                  - generic [ref=e205]: Sun 12 Apr
+                  - generic [ref=e206]: 19:45
+                - link "Lyon vs Lorient" [ref=e207] [cursor=pointer]:
+                  - /url: /matches/11bc083e-ce2d-490d-878d-d291b346acda
+                  - generic [ref=e208]:
+                    - generic [ref=e209]: Lyon
+                    - generic [ref=e210]: vs
+                    - generic [ref=e211]: Lorient
+                - generic [ref=e212]:
+                  - generic [ref=e213]: NO REPORT
+                  - link "VIEW →" [ref=e214] [cursor=pointer]:
+                    - /url: /matches/11bc083e-ce2d-490d-878d-d291b346acda
+          - generic [ref=e215]:
+            - heading "Bundesliga · 9 matches" [level=2] [ref=e218]
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e221]:
+                  - generic [ref=e222]: Fri 10 Apr
+                  - generic [ref=e223]: 19:30
+                - link "Augsburg vs TSG Hoffenheim" [ref=e224] [cursor=pointer]:
+                  - /url: /matches/dbf2ebde-dbfd-4d62-bc66-4035cedd04af
+                  - generic [ref=e225]:
+                    - generic [ref=e226]: Augsburg
+                    - generic [ref=e227]: vs
+                    - generic [ref=e228]: TSG Hoffenheim
+                - generic [ref=e229]:
+                  - generic [ref=e230]: NO REPORT
+                  - link "VIEW →" [ref=e231] [cursor=pointer]:
+                    - /url: /matches/dbf2ebde-dbfd-4d62-bc66-4035cedd04af
+              - generic [ref=e232]:
+                - generic [ref=e233]:
+                  - generic [ref=e234]: Sat 11 Apr
+                  - generic [ref=e235]: 14:30
+                - link "1. FC Heidenheim vs Union Berlin" [ref=e236] [cursor=pointer]:
+                  - /url: /matches/f04f2a54-6ab9-402d-9b47-daf03829b4a3
+                  - generic [ref=e237]:
+                    - generic [ref=e238]: 1. FC Heidenheim
+                    - generic [ref=e239]: vs
+                    - generic [ref=e240]: Union Berlin
+                - generic [ref=e241]:
+                  - generic [ref=e242]: NO REPORT
+                  - link "VIEW →" [ref=e243] [cursor=pointer]:
+                    - /url: /matches/f04f2a54-6ab9-402d-9b47-daf03829b4a3
+              - generic [ref=e244]:
+                - generic [ref=e245]:
+                  - generic [ref=e246]: Sat 11 Apr
+                  - generic [ref=e247]: 14:30
+                - link "RB Leipzig vs Borussia Monchengladbach" [ref=e248] [cursor=pointer]:
+                  - /url: /matches/917c196e-9976-4180-bca7-a026ba193060
+                  - generic [ref=e249]:
+                    - generic [ref=e250]: RB Leipzig
+                    - generic [ref=e251]: vs
+                    - generic [ref=e252]: Borussia Monchengladbach
+                - generic [ref=e253]:
+                  - generic [ref=e254]: NO REPORT
+                  - link "VIEW →" [ref=e255] [cursor=pointer]:
+                    - /url: /matches/917c196e-9976-4180-bca7-a026ba193060
+              - generic [ref=e256]:
+                - generic [ref=e257]:
+                  - generic [ref=e258]: Sat 11 Apr
+                  - generic [ref=e259]: 14:30
+                - link "Borussia Dortmund vs Bayer Leverkusen" [ref=e260] [cursor=pointer]:
+                  - /url: /matches/0f2cf4c7-a401-401c-8676-7c7774ad6f16
+                  - generic [ref=e261]:
+                    - generic [ref=e262]: Borussia Dortmund
+                    - generic [ref=e263]: vs
+                    - generic [ref=e264]: Bayer Leverkusen
+                - generic [ref=e265]:
+                  - generic [ref=e266]: NO REPORT
+                  - link "VIEW →" [ref=e267] [cursor=pointer]:
+                    - /url: /matches/0f2cf4c7-a401-401c-8676-7c7774ad6f16
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - generic [ref=e270]: Sat 11 Apr
+                  - generic [ref=e271]: 14:30
+                - link "VfL Wolfsburg vs Eintracht Frankfurt" [ref=e272] [cursor=pointer]:
+                  - /url: /matches/a094a0c4-f0fa-46b0-bd0a-4078d775e0ff
+                  - generic [ref=e273]:
+                    - generic [ref=e274]: VfL Wolfsburg
+                    - generic [ref=e275]: vs
+                    - generic [ref=e276]: Eintracht Frankfurt
+                - generic [ref=e277]:
+                  - generic [ref=e278]: NO REPORT
+                  - link "VIEW →" [ref=e279] [cursor=pointer]:
+                    - /url: /matches/a094a0c4-f0fa-46b0-bd0a-4078d775e0ff
+              - generic [ref=e280]:
+                - generic [ref=e281]:
+                  - generic [ref=e282]: Sat 11 Apr
+                  - generic [ref=e283]: 17:30
+                - link "FC St. Pauli vs Bayern Munich" [ref=e284] [cursor=pointer]:
+                  - /url: /matches/0dc12061-f2d4-40bc-aa3e-e8cab371792f
+                  - generic [ref=e285]:
+                    - generic [ref=e286]: FC St. Pauli
+                    - generic [ref=e287]: vs
+                    - generic [ref=e288]: Bayern Munich
+                - generic [ref=e289]:
+                  - generic [ref=e290]: NO REPORT
+                  - link "VIEW →" [ref=e291] [cursor=pointer]:
+                    - /url: /matches/0dc12061-f2d4-40bc-aa3e-e8cab371792f
+              - generic [ref=e292]:
+                - generic [ref=e293]:
+                  - generic [ref=e294]: Sun 12 Apr
+                  - generic [ref=e295]: 14:30
+                - link "1. FC Köln vs Werder Bremen" [ref=e296] [cursor=pointer]:
+                  - /url: /matches/0317b169-903b-46e4-80c1-5d838df2ee1f
+                  - generic [ref=e297]:
+                    - generic [ref=e298]: 1. FC Köln
+                    - generic [ref=e299]: vs
+                    - generic [ref=e300]: Werder Bremen
+                - generic [ref=e301]:
+                  - generic [ref=e302]: NO REPORT
+                  - link "VIEW →" [ref=e303] [cursor=pointer]:
+                    - /url: /matches/0317b169-903b-46e4-80c1-5d838df2ee1f
+              - generic [ref=e304]:
+                - generic [ref=e305]:
+                  - generic [ref=e306]: Sun 12 Apr
+                  - generic [ref=e307]: 16:30
+                - link "VfB Stuttgart vs Hamburger SV" [ref=e308] [cursor=pointer]:
+                  - /url: /matches/0c1cf9ec-ae11-477d-9f45-09ba240ffa9a
+                  - generic [ref=e309]:
+                    - generic [ref=e310]: VfB Stuttgart
+                    - generic [ref=e311]: vs
+                    - generic [ref=e312]: Hamburger SV
+                - generic [ref=e313]:
+                  - generic [ref=e314]: NO REPORT
+                  - link "VIEW →" [ref=e315] [cursor=pointer]:
+                    - /url: /matches/0c1cf9ec-ae11-477d-9f45-09ba240ffa9a
+              - generic [ref=e316]:
+                - generic [ref=e317]:
+                  - generic [ref=e318]: Sun 12 Apr
+                  - generic [ref=e319]: 18:30
+                - link "FSV Mainz 05 vs SC Freiburg" [ref=e320] [cursor=pointer]:
+                  - /url: /matches/aa2557cc-6f78-45dc-8d81-60c04bdd679c
+                  - generic [ref=e321]:
+                    - generic [ref=e322]: FSV Mainz 05
+                    - generic [ref=e323]: vs
+                    - generic [ref=e324]: SC Freiburg
+                - generic [ref=e325]:
+                  - generic [ref=e326]: NO REPORT
+                  - link "VIEW →" [ref=e327] [cursor=pointer]:
+                    - /url: /matches/aa2557cc-6f78-45dc-8d81-60c04bdd679c
+          - generic [ref=e328]:
+            - heading "Serie A · 10 matches" [level=2] [ref=e331]
+            - generic [ref=e332]:
+              - generic [ref=e333]:
+                - generic [ref=e334]:
+                  - generic [ref=e335]: Fri 10 Apr
+                  - generic [ref=e336]: 19:45
+                - link "AS Roma vs Pisa" [ref=e337] [cursor=pointer]:
+                  - /url: /matches/e8a2f7f5-9f9b-490f-a1db-1f8ee4775655
+                  - generic [ref=e338]:
+                    - generic [ref=e339]: AS Roma
+                    - generic [ref=e340]: vs
+                    - generic [ref=e341]: Pisa
+                - generic [ref=e342]:
+                  - generic [ref=e343]: NO REPORT
+                  - link "VIEW →" [ref=e344] [cursor=pointer]:
+                    - /url: /matches/e8a2f7f5-9f9b-490f-a1db-1f8ee4775655
+              - generic [ref=e345]:
+                - generic [ref=e346]:
+                  - generic [ref=e347]: Sat 11 Apr
+                  - generic [ref=e348]: 14:00
+                - link "Cagliari vs Cremonese" [ref=e349] [cursor=pointer]:
+                  - /url: /matches/6e6d13e6-cb21-4c78-97c9-0d65b27df2aa
+                  - generic [ref=e350]:
+                    - generic [ref=e351]: Cagliari
+                    - generic [ref=e352]: vs
+                    - generic [ref=e353]: Cremonese
+                - generic [ref=e354]:
+                  - generic [ref=e355]: NO REPORT
+                  - link "VIEW →" [ref=e356] [cursor=pointer]:
+                    - /url: /matches/6e6d13e6-cb21-4c78-97c9-0d65b27df2aa
+              - generic [ref=e357]:
+                - generic [ref=e358]:
+                  - generic [ref=e359]: Sat 11 Apr
+                  - generic [ref=e360]: 14:00
+                - link "Torino vs Hellas Verona" [ref=e361] [cursor=pointer]:
+                  - /url: /matches/59fe6f1d-067d-43e3-bb4b-70f1ff6fbbf8
+                  - generic [ref=e362]:
+                    - generic [ref=e363]: Torino
+                    - generic [ref=e364]: vs
+                    - generic [ref=e365]: Hellas Verona
+                - generic [ref=e366]:
+                  - generic [ref=e367]: NO REPORT
+                  - link "VIEW →" [ref=e368] [cursor=pointer]:
+                    - /url: /matches/59fe6f1d-067d-43e3-bb4b-70f1ff6fbbf8
+              - generic [ref=e369]:
+                - generic [ref=e370]:
+                  - generic [ref=e371]: Sat 11 Apr
+                  - generic [ref=e372]: 17:00
+                - link "AC Milan vs Udinese" [ref=e373] [cursor=pointer]:
+                  - /url: /matches/01725ca0-0d62-4aa2-9aa7-4ff1f65a0331
+                  - generic [ref=e374]:
+                    - generic [ref=e375]: AC Milan
+                    - generic [ref=e376]: vs
+                    - generic [ref=e377]: Udinese
+                - generic [ref=e378]:
+                  - generic [ref=e379]: NO REPORT
+                  - link "VIEW →" [ref=e380] [cursor=pointer]:
+                    - /url: /matches/01725ca0-0d62-4aa2-9aa7-4ff1f65a0331
+              - generic [ref=e381]:
+                - generic [ref=e382]:
+                  - generic [ref=e383]: Sat 11 Apr
+                  - generic [ref=e384]: 19:45
+                - link "Atalanta BC vs Juventus" [ref=e385] [cursor=pointer]:
+                  - /url: /matches/f8eb4bae-709a-4858-ae53-8adbb13c2c1d
+                  - generic [ref=e386]:
+                    - generic [ref=e387]: Atalanta BC
+                    - generic [ref=e388]: vs
+                    - generic [ref=e389]: Juventus
+                - generic [ref=e390]:
+                  - generic [ref=e391]: NO REPORT
+                  - link "VIEW →" [ref=e392] [cursor=pointer]:
+                    - /url: /matches/f8eb4bae-709a-4858-ae53-8adbb13c2c1d
+              - generic [ref=e393]:
+                - generic [ref=e394]:
+                  - generic [ref=e395]: Sun 12 Apr
+                  - generic [ref=e396]: 11:30
+                - link "Genoa vs Sassuolo" [ref=e397] [cursor=pointer]:
+                  - /url: /matches/19eb06a4-ee51-4970-acf8-b2edcc7292e5
+                  - generic [ref=e398]:
+                    - generic [ref=e399]: Genoa
+                    - generic [ref=e400]: vs
+                    - generic [ref=e401]: Sassuolo
+                - generic [ref=e402]:
+                  - generic [ref=e403]: NO REPORT
+                  - link "VIEW →" [ref=e404] [cursor=pointer]:
+                    - /url: /matches/19eb06a4-ee51-4970-acf8-b2edcc7292e5
+              - generic [ref=e405]:
+                - generic [ref=e406]:
+                  - generic [ref=e407]: Sun 12 Apr
+                  - generic [ref=e408]: 14:00
+                - link "Parma vs Napoli" [ref=e409] [cursor=pointer]:
+                  - /url: /matches/b9fb02a1-b4ea-40ca-b4e9-b2f184569375
+                  - generic [ref=e410]:
+                    - generic [ref=e411]: Parma
+                    - generic [ref=e412]: vs
+                    - generic [ref=e413]: Napoli
+                - generic [ref=e414]:
+                  - generic [ref=e415]: NO REPORT
+                  - link "VIEW →" [ref=e416] [cursor=pointer]:
+                    - /url: /matches/b9fb02a1-b4ea-40ca-b4e9-b2f184569375
+              - generic [ref=e417]:
+                - generic [ref=e418]:
+                  - generic [ref=e419]: Sun 12 Apr
+                  - generic [ref=e420]: 17:00
+                - link "Bologna vs Lecce" [ref=e421] [cursor=pointer]:
+                  - /url: /matches/ba78a87e-910a-4f37-8eb4-229a73963d1d
+                  - generic [ref=e422]:
+                    - generic [ref=e423]: Bologna
+                    - generic [ref=e424]: vs
+                    - generic [ref=e425]: Lecce
+                - generic [ref=e426]:
+                  - generic [ref=e427]: NO REPORT
+                  - link "VIEW →" [ref=e428] [cursor=pointer]:
+                    - /url: /matches/ba78a87e-910a-4f37-8eb4-229a73963d1d
+              - generic [ref=e429]:
+                - generic [ref=e430]:
+                  - generic [ref=e431]: Sun 12 Apr
+                  - generic [ref=e432]: 19:45
+                - link "Como vs Inter Milan" [ref=e433] [cursor=pointer]:
+                  - /url: /matches/cb8fa063-caec-49fe-8964-40d37d4ad183
+                  - generic [ref=e434]:
+                    - generic [ref=e435]: Como
+                    - generic [ref=e436]: vs
+                    - generic [ref=e437]: Inter Milan
+                - generic [ref=e438]:
+                  - generic [ref=e439]: NO REPORT
+                  - link "VIEW →" [ref=e440] [cursor=pointer]:
+                    - /url: /matches/cb8fa063-caec-49fe-8964-40d37d4ad183
+              - generic [ref=e441]:
+                - generic [ref=e442]:
+                  - generic [ref=e443]: Mon 13 Apr
+                  - generic [ref=e444]: 19:45
+                - link "Fiorentina vs Lazio" [ref=e445] [cursor=pointer]:
+                  - /url: /matches/75bff54f-7d75-46bb-9930-7e6ccd9f424f
+                  - generic [ref=e446]:
+                    - generic [ref=e447]: Fiorentina
+                    - generic [ref=e448]: vs
+                    - generic [ref=e449]: Lazio
+                - generic [ref=e450]:
+                  - generic [ref=e451]: NO REPORT
+                  - link "VIEW →" [ref=e452] [cursor=pointer]:
+                    - /url: /matches/75bff54f-7d75-46bb-9930-7e6ccd9f424f
+          - generic [ref=e453]:
+            - heading "La Liga · 10 matches" [level=2] [ref=e456]
+            - generic [ref=e457]:
+              - generic [ref=e458]:
+                - generic [ref=e459]:
+                  - generic [ref=e460]: Fri 10 Apr
+                  - generic [ref=e461]: 20:00
+                - link "Real Madrid vs Girona" [ref=e462] [cursor=pointer]:
+                  - /url: /matches/f6e05fe2-b7b6-45be-8f7b-3e89ab6f9b23
+                  - generic [ref=e463]:
+                    - generic [ref=e464]: Real Madrid
+                    - generic [ref=e465]: vs
+                    - generic [ref=e466]: Girona
+                - generic [ref=e467]:
+                  - generic [ref=e468]: NO REPORT
+                  - link "VIEW →" [ref=e469] [cursor=pointer]:
+                    - /url: /matches/f6e05fe2-b7b6-45be-8f7b-3e89ab6f9b23
+              - generic [ref=e470]:
+                - generic [ref=e471]:
+                  - generic [ref=e472]: Sat 11 Apr
+                  - generic [ref=e473]: 13:00
+                - link "Real Sociedad vs Alavés" [ref=e474] [cursor=pointer]:
+                  - /url: /matches/7c9a690a-2a88-49e2-bb32-f35234ec7eb7
+                  - generic [ref=e475]:
+                    - generic [ref=e476]: Real Sociedad
+                    - generic [ref=e477]: vs
+                    - generic [ref=e478]: Alavés
+                - generic [ref=e479]:
+                  - generic [ref=e480]: NO REPORT
+                  - link "VIEW →" [ref=e481] [cursor=pointer]:
+                    - /url: /matches/7c9a690a-2a88-49e2-bb32-f35234ec7eb7
+              - generic [ref=e482]:
+                - generic [ref=e483]:
+                  - generic [ref=e484]: Sat 11 Apr
+                  - generic [ref=e485]: 15:15
+                - link "Elche CF vs Valencia" [ref=e486] [cursor=pointer]:
+                  - /url: /matches/ec3e785a-ed0e-4c0d-b6e9-4a398df83afb
+                  - generic [ref=e487]:
+                    - generic [ref=e488]: Elche CF
+                    - generic [ref=e489]: vs
+                    - generic [ref=e490]: Valencia
+                - generic [ref=e491]:
+                  - generic [ref=e492]: NO REPORT
+                  - link "VIEW →" [ref=e493] [cursor=pointer]:
+                    - /url: /matches/ec3e785a-ed0e-4c0d-b6e9-4a398df83afb
+              - generic [ref=e494]:
+                - generic [ref=e495]:
+                  - generic [ref=e496]: Sat 11 Apr
+                  - generic [ref=e497]: 17:30
+                - link "Barcelona vs Espanyol" [ref=e498] [cursor=pointer]:
+                  - /url: /matches/2c28c329-7a27-4e62-929d-f9ed6abfaf3f
+                  - generic [ref=e499]:
+                    - generic [ref=e500]: Barcelona
+                    - generic [ref=e501]: vs
+                    - generic [ref=e502]: Espanyol
+                - generic [ref=e503]:
+                  - generic [ref=e504]: NO REPORT
+                  - link "VIEW →" [ref=e505] [cursor=pointer]:
+                    - /url: /matches/2c28c329-7a27-4e62-929d-f9ed6abfaf3f
+              - generic [ref=e506]:
+                - generic [ref=e507]:
+                  - generic [ref=e508]: Sat 11 Apr
+                  - generic [ref=e509]: 20:00
+                - link "Sevilla vs Atlético Madrid" [ref=e510] [cursor=pointer]:
+                  - /url: /matches/311dd503-80aa-4adc-915b-d12c112df9b7
+                  - generic [ref=e511]:
+                    - generic [ref=e512]: Sevilla
+                    - generic [ref=e513]: vs
+                    - generic [ref=e514]: Atlético Madrid
+                - generic [ref=e515]:
+                  - generic [ref=e516]: NO REPORT
+                  - link "VIEW →" [ref=e517] [cursor=pointer]:
+                    - /url: /matches/311dd503-80aa-4adc-915b-d12c112df9b7
+              - generic [ref=e518]:
+                - generic [ref=e519]:
+                  - generic [ref=e520]: Sun 12 Apr
+                  - generic [ref=e521]: 13:00
+                - link "CA Osasuna vs Real Betis" [ref=e522] [cursor=pointer]:
+                  - /url: /matches/cf00f1f1-f21a-4d4f-a136-d61265d494f3
+                  - generic [ref=e523]:
+                    - generic [ref=e524]: CA Osasuna
+                    - generic [ref=e525]: vs
+                    - generic [ref=e526]: Real Betis
+                - generic [ref=e527]:
+                  - generic [ref=e528]: NO REPORT
+                  - link "VIEW →" [ref=e529] [cursor=pointer]:
+                    - /url: /matches/cf00f1f1-f21a-4d4f-a136-d61265d494f3
+              - generic [ref=e530]:
+                - generic [ref=e531]:
+                  - generic [ref=e532]: Sun 12 Apr
+                  - generic [ref=e533]: 15:15
+                - link "Mallorca vs Rayo Vallecano" [ref=e534] [cursor=pointer]:
+                  - /url: /matches/7d1b035e-95cb-4286-a437-478f49aef69d
+                  - generic [ref=e535]:
+                    - generic [ref=e536]: Mallorca
+                    - generic [ref=e537]: vs
+                    - generic [ref=e538]: Rayo Vallecano
+                - generic [ref=e539]:
+                  - generic [ref=e540]: NO REPORT
+                  - link "VIEW →" [ref=e541] [cursor=pointer]:
+                    - /url: /matches/7d1b035e-95cb-4286-a437-478f49aef69d
+              - generic [ref=e542]:
+                - generic [ref=e543]:
+                  - generic [ref=e544]: Sun 12 Apr
+                  - generic [ref=e545]: 17:30
+                - link "Celta Vigo vs Oviedo" [ref=e546] [cursor=pointer]:
+                  - /url: /matches/321bc114-f280-43ea-b251-cc217dfc0f8b
+                  - generic [ref=e547]:
+                    - generic [ref=e548]: Celta Vigo
+                    - generic [ref=e549]: vs
+                    - generic [ref=e550]: Oviedo
+                - generic [ref=e551]:
+                  - generic [ref=e552]: NO REPORT
+                  - link "VIEW →" [ref=e553] [cursor=pointer]:
+                    - /url: /matches/321bc114-f280-43ea-b251-cc217dfc0f8b
+              - generic [ref=e554]:
+                - generic [ref=e555]:
+                  - generic [ref=e556]: Sun 12 Apr
+                  - generic [ref=e557]: 20:00
+                - link "Athletic Bilbao vs Villarreal" [ref=e558] [cursor=pointer]:
+                  - /url: /matches/dbc90ab0-2207-41d0-ab54-ee44a3901992
+                  - generic [ref=e559]:
+                    - generic [ref=e560]: Athletic Bilbao
+                    - generic [ref=e561]: vs
+                    - generic [ref=e562]: Villarreal
+                - generic [ref=e563]:
+                  - generic [ref=e564]: NO REPORT
+                  - link "VIEW →" [ref=e565] [cursor=pointer]:
+                    - /url: /matches/dbc90ab0-2207-41d0-ab54-ee44a3901992
+              - generic [ref=e566]:
+                - generic [ref=e567]:
+                  - generic [ref=e568]: Mon 13 Apr
+                  - generic [ref=e569]: 20:00
+                - link "Levante vs Getafe" [ref=e570] [cursor=pointer]:
+                  - /url: /matches/afe1bac8-41e5-44f6-a513-fe097952c82b
+                  - generic [ref=e571]:
+                    - generic [ref=e572]: Levante
+                    - generic [ref=e573]: vs
+                    - generic [ref=e574]: Getafe
+                - generic [ref=e575]:
+                  - generic [ref=e576]: NO REPORT
+                  - link "VIEW →" [ref=e577] [cursor=pointer]:
+                    - /url: /matches/afe1bac8-41e5-44f6-a513-fe097952c82b
+          - generic [ref=e578]:
+            - heading "Premier League · 10 matches" [level=2] [ref=e581]
+            - generic [ref=e582]:
+              - generic [ref=e583]:
+                - generic [ref=e584]:
+                  - generic [ref=e585]: Fri 10 Apr
+                  - generic [ref=e586]: 20:00
+                - link "West Ham United vs Wolverhampton Wanderers" [ref=e587] [cursor=pointer]:
+                  - /url: /matches/0c3c7cd7-cb84-40d4-8005-c5f30fb643e6
+                  - generic [ref=e588]:
+                    - generic [ref=e589]: West Ham United
+                    - generic [ref=e590]: vs
+                    - generic [ref=e591]: Wolverhampton Wanderers
+                - generic [ref=e592]:
+                  - generic [ref=e593]: NO REPORT
+                  - link "VIEW →" [ref=e594] [cursor=pointer]:
+                    - /url: /matches/0c3c7cd7-cb84-40d4-8005-c5f30fb643e6
+              - generic [ref=e595]:
+                - generic [ref=e596]:
+                  - generic [ref=e597]: Sat 11 Apr
+                  - generic [ref=e598]: 12:30
+                - link "Arsenal vs Bournemouth" [ref=e599] [cursor=pointer]:
+                  - /url: /matches/7fa0c398-8a97-4e94-80de-cad01e62b88e
+                  - generic [ref=e600]:
+                    - generic [ref=e601]: Arsenal
+                    - generic [ref=e602]: vs
+                    - generic [ref=e603]: Bournemouth
+                - generic [ref=e604]:
+                  - generic [ref=e605]: NO REPORT
+                  - link "VIEW →" [ref=e606] [cursor=pointer]:
+                    - /url: /matches/7fa0c398-8a97-4e94-80de-cad01e62b88e
+              - generic [ref=e607]:
+                - generic [ref=e608]:
+                  - generic [ref=e609]: Sat 11 Apr
+                  - generic [ref=e610]: 15:00
+                - link "Burnley vs Brighton and Hove Albion" [ref=e611] [cursor=pointer]:
+                  - /url: /matches/a66226c5-84be-495e-9577-7063e45d808b
+                  - generic [ref=e612]:
+                    - generic [ref=e613]: Burnley
+                    - generic [ref=e614]: vs
+                    - generic [ref=e615]: Brighton and Hove Albion
+                - generic [ref=e616]:
+                  - generic [ref=e617]: NO REPORT
+                  - link "VIEW →" [ref=e618] [cursor=pointer]:
+                    - /url: /matches/a66226c5-84be-495e-9577-7063e45d808b
+              - generic [ref=e619]:
+                - generic [ref=e620]:
+                  - generic [ref=e621]: Sat 11 Apr
+                  - generic [ref=e622]: 15:00
+                - link "Brentford vs Everton" [ref=e623] [cursor=pointer]:
+                  - /url: /matches/969412d7-adfd-49de-b6c1-1ec8ebe701eb
+                  - generic [ref=e624]:
+                    - generic [ref=e625]: Brentford
+                    - generic [ref=e626]: vs
+                    - generic [ref=e627]: Everton
+                - generic [ref=e628]:
+                  - generic [ref=e629]: NO REPORT
+                  - link "VIEW →" [ref=e630] [cursor=pointer]:
+                    - /url: /matches/969412d7-adfd-49de-b6c1-1ec8ebe701eb
+              - generic [ref=e631]:
+                - generic [ref=e632]:
+                  - generic [ref=e633]: Sat 11 Apr
+                  - generic [ref=e634]: 17:30
+                - link "Liverpool vs Fulham" [ref=e635] [cursor=pointer]:
+                  - /url: /matches/cf11911f-052f-4531-9174-c35f7c27b717
+                  - generic [ref=e636]:
+                    - generic [ref=e637]: Liverpool
+                    - generic [ref=e638]: vs
+                    - generic [ref=e639]: Fulham
+                - generic [ref=e640]:
+                  - generic [ref=e641]: NO REPORT
+                  - link "VIEW →" [ref=e642] [cursor=pointer]:
+                    - /url: /matches/cf11911f-052f-4531-9174-c35f7c27b717
+              - generic [ref=e643]:
+                - generic [ref=e644]:
+                  - generic [ref=e645]: Sun 12 Apr
+                  - generic [ref=e646]: 14:00
+                - link "Sunderland vs Tottenham Hotspur" [ref=e647] [cursor=pointer]:
+                  - /url: /matches/f982b648-7527-42d7-99b4-f8a207ca8c8a
+                  - generic [ref=e648]:
+                    - generic [ref=e649]: Sunderland
+                    - generic [ref=e650]: vs
+                    - generic [ref=e651]: Tottenham Hotspur
+                - generic [ref=e652]:
+                  - generic [ref=e653]: NO REPORT
+                  - link "VIEW →" [ref=e654] [cursor=pointer]:
+                    - /url: /matches/f982b648-7527-42d7-99b4-f8a207ca8c8a
+              - generic [ref=e655]:
+                - generic [ref=e656]:
+                  - generic [ref=e657]: Sun 12 Apr
+                  - generic [ref=e658]: 14:00
+                - link "Nottingham Forest vs Aston Villa" [ref=e659] [cursor=pointer]:
+                  - /url: /matches/a0a551fe-938c-474c-8082-7e748535bc32
+                  - generic [ref=e660]:
+                    - generic [ref=e661]: Nottingham Forest
+                    - generic [ref=e662]: vs
+                    - generic [ref=e663]: Aston Villa
+                - generic [ref=e664]:
+                  - generic [ref=e665]: NO REPORT
+                  - link "VIEW →" [ref=e666] [cursor=pointer]:
+                    - /url: /matches/a0a551fe-938c-474c-8082-7e748535bc32
+              - generic [ref=e667]:
+                - generic [ref=e668]:
+                  - generic [ref=e669]: Sun 12 Apr
+                  - generic [ref=e670]: 14:00
+                - link "Crystal Palace vs Newcastle United" [ref=e671] [cursor=pointer]:
+                  - /url: /matches/effd4c29-af5f-4507-a321-2824bbb77cc4
+                  - generic [ref=e672]:
+                    - generic [ref=e673]: Crystal Palace
+                    - generic [ref=e674]: vs
+                    - generic [ref=e675]: Newcastle United
+                - generic [ref=e676]:
+                  - generic [ref=e677]: NO REPORT
+                  - link "VIEW →" [ref=e678] [cursor=pointer]:
+                    - /url: /matches/effd4c29-af5f-4507-a321-2824bbb77cc4
+              - generic [ref=e679]:
+                - generic [ref=e680]:
+                  - generic [ref=e681]: Sun 12 Apr
+                  - generic [ref=e682]: 16:30
+                - link "Chelsea vs Manchester City" [ref=e683] [cursor=pointer]:
+                  - /url: /matches/4d8f94ea-732a-46eb-abb5-d4e237396b18
+                  - generic [ref=e684]:
+                    - generic [ref=e685]: Chelsea
+                    - generic [ref=e686]: vs
+                    - generic [ref=e687]: Manchester City
+                - generic [ref=e688]:
+                  - generic [ref=e689]: NO REPORT
+                  - link "VIEW →" [ref=e690] [cursor=pointer]:
+                    - /url: /matches/4d8f94ea-732a-46eb-abb5-d4e237396b18
+              - generic [ref=e691]:
+                - generic [ref=e692]:
+                  - generic [ref=e693]: Mon 13 Apr
+                  - generic [ref=e694]: 20:00
+                - link "Manchester United vs Leeds United" [ref=e695] [cursor=pointer]:
+                  - /url: /matches/2780d218-6576-414d-b2eb-81c27fd6ae22
+                  - generic [ref=e696]:
+                    - generic [ref=e697]: Manchester United
+                    - generic [ref=e698]: vs
+                    - generic [ref=e699]: Leeds United
+                - generic [ref=e700]:
+                  - generic [ref=e701]: NO REPORT
+                  - link "VIEW →" [ref=e702] [cursor=pointer]:
+                    - /url: /matches/2780d218-6576-414d-b2eb-81c27fd6ae22
+    - complementary [ref=e703]:
+      - generic [ref=e705]: Bet Slip
+      - paragraph [ref=e707]: No selections yet
+  - alert [ref=e708]
