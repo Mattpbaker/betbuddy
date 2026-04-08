@@ -17,7 +17,7 @@ export async function GET(req: Request) {
     .select('id')
     .gte('match_date', now.toISOString())
     .lte('match_date', fortyEightHoursFromNow.toISOString())
-    .eq('status', 'scheduled')
+    .eq('status', 'NS')
 
   if (!matches || matches.length === 0) {
     return NextResponse.json({ success: true, generated: 0 })

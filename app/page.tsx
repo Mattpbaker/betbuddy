@@ -17,7 +17,7 @@ async function getUpcomingMatches(): Promise<Record<string, Match[]>> {
     `)
     .gte('match_date', new Date().toISOString())
     .lte('match_date', sevenDaysFromNow.toISOString())
-    .eq('status', 'scheduled')
+    .eq('status', 'NS')
     .order('match_date', { ascending: true })
 
   if (error || !data) return {}
