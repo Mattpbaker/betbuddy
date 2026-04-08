@@ -24,39 +24,29 @@ export async function POST() {
 
       counts[competition] = Array.isArray(fixtures) ? fixtures.length : -1
 
-      for (const f of fixtures) {
-        // Upsert home team (conflict on name + competition)
-        await supabaseAdmin.from('teams').upsert({
-          name: f.home_team,
-          competition,
-        }, { onConflict: 'name,competition', ignoreDuplicates: true })
+      // Only process first fixture per competition for diagnostics
+      const sample = fixtures[0]
+      if (!sample) continue
 
-        // Upsert away team
-        await supabaseAdmin.from('teams').upsert({
-          name: f.away_team,
-          competition,
-        }, { onConflict: 'name,competition', ignoreDuplicates: true })
+      const { error: homeErr } = await supabaseAdmin.from('teams').upsert({
+        name: sample.home_team,
+        competition,
+      }, { onConflict: 'name,competition', ignoreDuplicates: true })
 
-        // Fetch the team UUIDs we just upserted
-        const [{ data: homeTeam }, { data: awayTeam }] = await Promise.all([
-          supabaseAdmin.from('teams').select('id').eq('name', f.home_team).eq('competition', competition).single(),
-          supabaseAdmin.from('teams').select('id').eq('name', f.away_team).eq('competition', competition).single(),
-        ])
-
-        if (!homeTeam || !awayTeam) continue
-
-        // Upsert match (conflict on odds_event_id)
-        await supabaseAdmin.from('matches').upsert({
-          odds_event_id: f.id,
-          home_team_id: homeTeam.id,
-          away_team_id: awayTeam.id,
-          competition,
-          match_date: f.commence_time,
-          status: 'scheduled',
-        }, { onConflict: 'odds_event_id', ignoreDuplicates: false })
-
-        totalUpserted++
+      if (homeErr) {
+        errors[`${competition}:team_upsert`] = homeErr.message
+        continue
       }
+
+      const { data: homeTeam, error: homeFetchErr } = await supabaseAdmin
+        .from('teams').select('id').eq('name', sample.home_team).eq('competition', competition).single()
+
+      if (homeFetchErr || !homeTeam) {
+        errors[`${competition}:team_fetch`] = homeFetchErr?.message ?? 'not found'
+        continue
+      }
+
+      errors[`${competition}:ok`] = `home team id=${homeTeam.id}`
     }
 
     return NextResponse.json({ success: true, upserted: totalUpserted, counts, errors })
