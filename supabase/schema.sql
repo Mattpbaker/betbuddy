@@ -51,6 +51,11 @@ create table if not exists matches (
   match_date timestamptz not null,
   venue text,
   status text default 'scheduled',
+  round text,
+  home_score integer,
+  away_score integer,
+  ht_home_score integer,
+  ht_away_score integer,
   created_at timestamptz default now()
 );
 
@@ -103,6 +108,50 @@ create table if not exists odds (
   bookmaker text,
   fetched_at timestamptz default now(),
   unique(match_id, market, selection)
+);
+
+-- Match lineups (announced starting XIs)
+create table if not exists match_lineups (
+  id uuid primary key default gen_random_uuid(),
+  match_id uuid references matches(id) on delete cascade,
+  team_id uuid references teams(id),
+  formation text,
+  start_xi jsonb not null default '[]',
+  substitutes jsonb not null default '[]',
+  coach_name text,
+  fetched_at timestamptz default now(),
+  unique(match_id, team_id)
+);
+
+-- Match events (goals, cards, subs)
+create table if not exists match_events (
+  id uuid primary key default gen_random_uuid(),
+  match_id uuid references matches(id) on delete cascade,
+  team_id uuid references teams(id),
+  elapsed integer,
+  type text not null,
+  detail text not null,
+  player_name text,
+  assist_name text,
+  fetched_at timestamptz default now()
+);
+
+-- AI predictions per fixture
+create table if not exists match_predictions (
+  id uuid primary key default gen_random_uuid(),
+  match_id uuid unique references matches(id) on delete cascade,
+  winner_team_id integer,
+  winner_name text,
+  win_or_draw boolean,
+  under_over text,
+  advice text,
+  home_win_percent text,
+  draw_percent text,
+  away_win_percent text,
+  home_form text,
+  away_form text,
+  comparison jsonb,
+  fetched_at timestamptz default now()
 );
 
 -- AI Reports
