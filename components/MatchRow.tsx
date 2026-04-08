@@ -11,9 +11,12 @@ export function MatchRow({ match }: Props) {
   const drawOdds = match.odds?.find(o => o.market === 'Match Winner' && o.selection === 'Draw')
   const awayOdds = match.odds?.find(o => o.market === 'Match Winner' && o.selection === 'Away')
 
+  const LIVE_STATUSES = new Set(['1H', 'HT', '2H', 'ET', 'BT', 'P'])
+  const isLive = LIVE_STATUSES.has(match.status)
+
   const matchDate = new Date(match.match_date)
-  const timeStr = matchDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
-  const dateStr = matchDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+  const timeStr = matchDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
+  const dateStr = matchDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })
 
   async function addToSlip(selection: string, odds: number, market: string) {
     await fetch('/api/slip', {
@@ -27,8 +30,17 @@ export function MatchRow({ match }: Props) {
   return (
     <div className="flex items-center gap-3 px-4 py-3 border-b border-[#1c2535] hover:bg-[#0d1117] transition-colors group">
       <div className="text-[10px] text-[#3a4a5e] font-mono w-20 shrink-0">
-        <div>{dateStr}</div>
-        <div className="text-[#5a6a7e]">{timeStr}</div>
+        {isLive ? (
+          <>
+            <div className="text-[#ff4444] font-bold animate-pulse">● LIVE</div>
+            <div className="text-[#5a6a7e]">{match.status}</div>
+          </>
+        ) : (
+          <>
+            <div>{dateStr}</div>
+            <div className="text-[#5a6a7e]">{timeStr}</div>
+          </>
+        )}
       </div>
 
       <Link href={`/matches/${match.id}`} className="flex-1 min-w-0">
