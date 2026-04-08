@@ -41,21 +41,24 @@ export async function POST() {
           country: '',
         }
 
-        // Upsert both teams by api_football_id
+        // Upsert teams on name+competition so existing rows (with api_football_id=null) get updated
         const [{ error: homeErr }, { error: awayErr }] = await Promise.all([
           supabaseAdmin.from('teams').upsert(homeTeamData, {
-            onConflict: 'api_football_id',
+            onConflict: 'name,competition',
             ignoreDuplicates: false,
           }),
           supabaseAdmin.from('teams').upsert(awayTeamData, {
-            onConflict: 'api_football_id',
+            onConflict: 'name,competition',
             ignoreDuplicates: false,
           }),
         ])
 
-        if (homeErr || awayErr) continue
+        if (homeErr || awayErr) {
+          console.error(`Team upsert error for ${f.teams.home.name} vs ${f.teams.away.name}:`, homeErr?.message ?? awayErr?.message)
+          continue
+        }
 
-        // Fetch team UUIDs
+        // Fetch team UUIDs (now guaranteed to have api_football_id set)
         const [{ data: homeTeam }, { data: awayTeam }] = await Promise.all([
           supabaseAdmin.from('teams').select('id').eq('api_football_id', f.teams.home.id).single(),
           supabaseAdmin.from('teams').select('id').eq('api_football_id', f.teams.away.id).single(),
