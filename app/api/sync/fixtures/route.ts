@@ -1,52 +1,78 @@
 // app/api/sync/fixtures/route.ts
 import { NextResponse } from 'next/server'
-import { createOddsAPIClient, ODDS_SPORT_KEYS } from '@/lib/odds-api'
+import { createAPIFootballClient, LEAGUE_IDS, getCurrentSeason } from '@/lib/api-football'
 import { supabaseAdmin } from '@/lib/supabase'
 
 export async function POST() {
   try {
-    const client = createOddsAPIClient()
+    const client = createAPIFootballClient()
+    const season = getCurrentSeason()
+    const now = new Date()
+    const in14Days = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000)
+    const from = now.toISOString().slice(0, 10)
+    const to = in14Days.toISOString().slice(0, 10)
+
     let totalUpserted = 0
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-    for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
+    for (const [competition, leagueId] of Object.entries(LEAGUE_IDS)) {
       await sleep(300)
+
       let fixtures
       try {
-        fixtures = await client.getEvents(sportKey)
+        fixtures = await client.getFixturesForDateRange(leagueId, season, from, to)
       } catch {
         continue
       }
 
       for (const f of fixtures) {
+        const homeTeamData = {
+          api_football_id: f.teams.home.id,
+          name: f.teams.home.name,
+          logo_url: f.teams.home.logo,
+          competition,
+          country: '',
+        }
+        const awayTeamData = {
+          api_football_id: f.teams.away.id,
+          name: f.teams.away.name,
+          logo_url: f.teams.away.logo,
+          competition,
+          country: '',
+        }
+
+        // Upsert both teams by api_football_id
         const [{ error: homeErr }, { error: awayErr }] = await Promise.all([
-          supabaseAdmin.from('teams').upsert(
-            { name: f.home_team, competition, country: '' },
-            { onConflict: 'name,competition', ignoreDuplicates: true }
-          ),
-          supabaseAdmin.from('teams').upsert(
-            { name: f.away_team, competition, country: '' },
-            { onConflict: 'name,competition', ignoreDuplicates: true }
-          ),
+          supabaseAdmin.from('teams').upsert(homeTeamData, {
+            onConflict: 'api_football_id',
+            ignoreDuplicates: false,
+          }),
+          supabaseAdmin.from('teams').upsert(awayTeamData, {
+            onConflict: 'api_football_id',
+            ignoreDuplicates: false,
+          }),
         ])
 
         if (homeErr || awayErr) continue
 
+        // Fetch team UUIDs
         const [{ data: homeTeam }, { data: awayTeam }] = await Promise.all([
-          supabaseAdmin.from('teams').select('id').eq('name', f.home_team).eq('competition', competition).single(),
-          supabaseAdmin.from('teams').select('id').eq('name', f.away_team).eq('competition', competition).single(),
+          supabaseAdmin.from('teams').select('id').eq('api_football_id', f.teams.home.id).single(),
+          supabaseAdmin.from('teams').select('id').eq('api_football_id', f.teams.away.id).single(),
         ])
 
         if (!homeTeam || !awayTeam) continue
 
         await supabaseAdmin.from('matches').upsert({
-          odds_event_id: f.id,
+          api_football_id: f.fixture.id,
           home_team_id: homeTeam.id,
           away_team_id: awayTeam.id,
           competition,
-          match_date: f.commence_time,
-          status: 'scheduled',
-        }, { onConflict: 'odds_event_id', ignoreDuplicates: false })
+          match_date: f.fixture.date,
+          venue: f.fixture.venue?.name ?? null,
+          status: f.fixture.status.short,
+          round: f.league.round,
+        }, { onConflict: 'api_football_id', ignoreDuplicates: false })
 
         totalUpserted++
       }
