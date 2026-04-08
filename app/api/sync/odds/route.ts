@@ -3,47 +3,55 @@ import { NextResponse } from 'next/server'
 import { createOddsAPIClient, ODDS_SPORT_KEYS, MARKETS } from '@/lib/odds-api'
 import { supabaseAdmin } from '@/lib/supabase'
 
+const COMPETITION_TO_SPORT_KEY = Object.fromEntries(
+  Object.entries(ODDS_SPORT_KEYS).map(([comp, key]) => [comp, key])
+)
+
 export async function POST() {
   try {
     const client = createOddsAPIClient()
     let totalUpserted = 0
 
+    const { data: matches, error } = await supabaseAdmin
+      .from('matches')
+      .select('id, odds_event_id, competition')
+      .eq('status', 'scheduled')
+      .not('odds_event_id', 'is', null)
+
+    if (error) throw new Error(`Failed to load matches: ${error.message}`)
+    if (!matches || matches.length === 0) {
+      return NextResponse.json({ success: true, upserted: 0 })
+    }
+
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-    for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
-      await sleep(500)
+    for (const match of matches) {
+      const sportKey = COMPETITION_TO_SPORT_KEY[match.competition]
+      if (!sportKey) continue
 
-      let events
+      await sleep(200)
+
+      let event
       try {
-        events = await client.getOdds(sportKey, MARKETS)
+        event = await client.getEventOdds(sportKey, match.odds_event_id, MARKETS)
       } catch {
         continue
       }
 
-      for (const event of events) {
-        const { data: match } = await supabaseAdmin
-          .from('matches')
-          .select('id')
-          .eq('odds_event_id', event.id)
-          .single()
+      const flatOdds = client.flattenOdds(event, match.id)
+      if (flatOdds.length === 0) continue
 
-        if (!match) continue
+      const { error: upsertError } = await supabaseAdmin.from('odds').upsert(flatOdds, {
+        onConflict: 'match_id,market,selection',
+        ignoreDuplicates: false,
+      })
 
-        const flatOdds = client.flattenOdds(event, match.id)
-        if (flatOdds.length === 0) continue
-
-        const { error: upsertError } = await supabaseAdmin.from('odds').upsert(flatOdds, {
-          onConflict: 'match_id,market,selection',
-          ignoreDuplicates: false,
-        })
-
-        if (upsertError) {
-          console.error(`Odds upsert error for match ${match.id}:`, upsertError.message)
-          continue
-        }
-
-        totalUpserted += flatOdds.length
+      if (upsertError) {
+        console.error(`Odds upsert error for match ${match.id}:`, upsertError.message)
+        continue
       }
+
+      totalUpserted += flatOdds.length
     }
 
     return NextResponse.json({ success: true, upserted: totalUpserted })

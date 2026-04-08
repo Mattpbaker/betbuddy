@@ -4,10 +4,10 @@ import type { Odd } from '@/types'
 
 const MARKET_LABELS: Record<string, string> = {
   h2h: 'Match Result',
+  h2h_3_way: '3-Way Result',
   totals: 'Over/Under Goals',
   btts: 'Both Teams to Score',
-  corners: 'Corners',
-  cards: 'Cards',
+  draw_no_bet: 'Draw No Bet',
 }
 
 interface Props {

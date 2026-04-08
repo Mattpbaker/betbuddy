@@ -18,8 +18,8 @@ export const ODDS_SPORT_KEYS: Record<string, string> = {
   'Europa League': 'soccer_uefa_europa_league',
 }
 
-// Markets supported by the bulk /odds endpoint
-export const MARKETS = ['h2h', 'totals']
+// Markets available via the per-event /events/{id}/odds endpoint
+export const MARKETS = ['h2h', 'h2h_3_way', 'totals', 'btts', 'draw_no_bet']
 
 export interface OddsEvent {
   id: string
@@ -64,8 +64,8 @@ export class OddsAPIClient {
     return res.json()
   }
 
-  async getOdds(sportKey: string, markets: string[]): Promise<OddsEvent[]> {
-    const url = new URL(`${BASE_URL}/sports/${sportKey}/odds`)
+  async getEventOdds(sportKey: string, eventId: string, markets: string[]): Promise<OddsEvent> {
+    const url = new URL(`${BASE_URL}/sports/${sportKey}/events/${eventId}/odds`)
     url.searchParams.set('apiKey', this.apiKey)
     url.searchParams.set('regions', 'uk')
     url.searchParams.set('markets', markets.join(','))
