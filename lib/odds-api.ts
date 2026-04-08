@@ -19,7 +19,7 @@ export const ODDS_SPORT_KEYS: Record<string, string> = {
 }
 
 // Markets we want to fetch
-export const MARKETS = ['h2h_3_way', 'totals', 'btts', 'draw_no_bet', 'team_totals']
+export const MARKETS = ['h2h_3_way', 'totals', 'btts']
 
 export interface OddsEvent {
   id: string

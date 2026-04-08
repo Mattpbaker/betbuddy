@@ -11,8 +11,10 @@ export async function POST() {
     const errors: Record<string, string> = {}
     let firstEventId: string | null = null
     let firstDbMatch: string | null = null
+    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
     for (const [competition, sportKey] of Object.entries(ODDS_SPORT_KEYS)) {
+      await sleep(500)
       let events
       try {
         events = await client.getOdds(sportKey, MARKETS)
