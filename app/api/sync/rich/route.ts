@@ -80,8 +80,18 @@ export async function POST() {
             match_id: match.id,
             team_id: teamId,
             formation: lineup.formation,
-            start_xi: lineup.startXI.map(s => s.player),
-            substitutes: lineup.substitutes.map(s => s.player),
+            start_xi: lineup.startXI.map(s => ({
+              id: s.player.id,
+              name: s.player.name,
+              number: s.player.number,
+              position: s.player.pos,
+            })),
+            substitutes: lineup.substitutes.map(s => ({
+              id: s.player.id,
+              name: s.player.name,
+              number: s.player.number,
+              position: s.player.pos,
+            })),
             coach_name: lineup.coach.name,
             fetched_at: new Date().toISOString(),
           }, { onConflict: 'match_id,team_id', ignoreDuplicates: false })
