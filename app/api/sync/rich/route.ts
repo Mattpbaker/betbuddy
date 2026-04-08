@@ -56,11 +56,25 @@ export async function POST() {
       // --- Lineups ---
       try {
         const lineups = await client.getFixtureLineups(match.api_football_id)
+        if (!lineups?.length) continue
+
+        // Resolve both team IDs once, outside the loop
+        const [homeAfId, awayAfId] = await Promise.all([
+          getApiFootballTeamId(match.home_team_id),
+          getApiFootballTeamId(match.away_team_id),
+        ])
+
         for (const lineup of lineups) {
-          // Map the API-Football team ID to our internal UUID
-          const teamId = lineup.team.id === await getApiFootballTeamId(match.home_team_id)
+          const teamId = lineup.team.id === homeAfId
             ? match.home_team_id
-            : match.away_team_id
+            : lineup.team.id === awayAfId
+              ? match.away_team_id
+              : null
+
+          if (!teamId) {
+            console.warn(`Lineup team ID ${lineup.team.id} not recognised for match ${match.id}, skipping`)
+            continue
+          }
 
           await supabaseAdmin.from('match_lineups').upsert({
             match_id: match.id,
