@@ -12,7 +12,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'matchId required' }, { status: 400 })
     }
 
-    // Fetch match with teams
     const { data: match, error } = await supabaseAdmin
       .from('matches')
       .select('*, home_team:home_team_id(*), away_team:away_team_id(*)')
@@ -26,22 +25,24 @@ export async function POST(req: Request) {
     const footballClient = createAPIFootballClient()
     const competition = match.competition as keyof typeof LEAGUE_IDS
 
-    // Check knowledge base cache first (team_form updated_at < 24h = use cached)
-    const { data: homeFormCache } = await supabaseAdmin
-      .from('team_form')
-      .select('*')
-      .eq('team_id', match.home_team.id)
-      .gte('updated_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
-      .single()
+    // Fetch cached form data (24h TTL)
+    const [{ data: homeFormCache }, { data: awayFormCache }] = await Promise.all([
+      supabaseAdmin.from('team_form').select('*').eq('team_id', match.home_team.id)
+        .gte('updated_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()).single(),
+      supabaseAdmin.from('team_form').select('*').eq('team_id', match.away_team.id)
+        .gte('updated_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()).single(),
+    ])
 
-    const { data: awayFormCache } = await supabaseAdmin
-      .from('team_form')
-      .select('*')
-      .eq('team_id', match.away_team.id)
-      .gte('updated_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
-      .single()
+    // Fetch prediction and lineups from DB (synced by /api/sync/rich)
+    const [{ data: predictionRow }, { data: lineupsData }] = await Promise.all([
+      supabaseAdmin.from('match_predictions').select('*').eq('match_id', matchId).single(),
+      supabaseAdmin.from('match_lineups').select('*').eq('match_id', matchId),
+    ])
 
-    // Fetch data from API-Football only for what's not cached
+    const homeLineup = lineupsData?.find(l => l.team_id === match.home_team_id) ?? null
+    const awayLineup = lineupsData?.find(l => l.team_id === match.away_team_id) ?? null
+
+    // Fetch live data from API-Football for what's not cached
     const [homeFormRaw, awayFormRaw, h2h, homeInjuries, awayInjuries, standings] = await Promise.all([
       homeFormCache
         ? Promise.resolve(homeFormCache.last_5_results)
@@ -50,16 +51,23 @@ export async function POST(req: Request) {
         ? Promise.resolve(awayFormCache.last_5_results)
         : footballClient.getTeamLastFiveResults(match.away_team.api_football_id).catch(() => []),
       footballClient.getHeadToHead(match.home_team.api_football_id, match.away_team.api_football_id).catch(() => []),
-      footballClient.getInjuries(match.api_football_id, match.home_team.api_football_id).catch(() => []),
-      footballClient.getInjuries(match.api_football_id, match.away_team.api_football_id).catch(() => []),
-      (LEAGUE_IDS[competition] ? footballClient.getStandings(LEAGUE_IDS[competition]) : Promise.resolve([])).catch(() => []),
+      match.api_football_id
+        ? footballClient.getInjuries(match.api_football_id, match.home_team.api_football_id).catch(() => [])
+        : Promise.resolve([]),
+      match.api_football_id
+        ? footballClient.getInjuries(match.api_football_id, match.away_team.api_football_id).catch(() => [])
+        : Promise.resolve([]),
+      (LEAGUE_IDS[competition]
+        ? footballClient.getStandings(LEAGUE_IDS[competition])
+        : Promise.resolve([])
+      ).catch(() => []),
     ])
 
     const homeForm = homeFormCache ? homeFormCache.last_5_results : homeFormRaw
     const awayForm = awayFormCache ? awayFormCache.last_5_results : awayFormRaw
 
-    // Update team_form cache for teams we just fetched
-    if (!homeFormCache) {
+    // Cache form data
+    if (!homeFormCache && Array.isArray(homeFormRaw) && homeFormRaw.length) {
       await supabaseAdmin.from('team_form').upsert({
         team_id: match.home_team.id,
         last_5_results: homeFormRaw,
@@ -68,7 +76,7 @@ export async function POST(req: Request) {
         updated_at: new Date().toISOString(),
       }, { onConflict: 'team_id' })
     }
-    if (!awayFormCache) {
+    if (!awayFormCache && Array.isArray(awayFormRaw) && awayFormRaw.length) {
       await supabaseAdmin.from('team_form').upsert({
         team_id: match.away_team.id,
         last_5_results: awayFormRaw,
@@ -78,14 +86,22 @@ export async function POST(req: Request) {
       }, { onConflict: 'team_id' })
     }
 
-    // Generate report via Claude
     const reportContent = await generateReport(
       match.home_team.name,
       match.away_team.name,
-      { homeForm, awayForm, h2h, homeInjuries, awayInjuries, standings }
+      {
+        homeForm,
+        awayForm,
+        h2h,
+        homeInjuries,
+        awayInjuries,
+        standings,
+        prediction: predictionRow ?? null,
+        homeLineup,
+        awayLineup,
+      }
     )
 
-    // Store report
     const { error: upsertError } = await supabaseAdmin.from('reports').upsert({
       match_id: matchId,
       content: reportContent,

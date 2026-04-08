@@ -9,6 +9,9 @@ export interface ResearchContext {
   homeInjuries: any[]
   awayInjuries: any[]
   standings: any[]
+  prediction?: any | null       // API-Football Poisson prediction
+  homeLineup?: any | null       // Starting XI if announced
+  awayLineup?: any | null
 }
 
 export function buildResearchPrompt(
@@ -16,6 +19,29 @@ export function buildResearchPrompt(
   awayTeam: string,
   context: ResearchContext
 ): string {
+  const lineupSection = context.homeLineup || context.awayLineup
+    ? `
+### Announced Lineups:
+${homeTeam}: ${context.homeLineup
+  ? `Formation: ${context.homeLineup.formation} | XI: ${context.homeLineup.start_xi.map((p: any) => p.name).join(', ')}`
+  : 'Not yet announced'}
+${awayTeam}: ${context.awayLineup
+  ? `Formation: ${context.awayLineup.formation} | XI: ${context.awayLineup.start_xi.map((p: any) => p.name).join(', ')}`
+  : 'Not yet announced'}`
+    : ''
+
+  const predictionSection = context.prediction
+    ? `
+### Statistical Prediction (Poisson model):
+Advice: ${context.prediction.advice}
+Win probability — ${homeTeam}: ${context.prediction.home_win_percent}, Draw: ${context.prediction.draw_percent}, ${awayTeam}: ${context.prediction.away_win_percent}
+Predicted winner: ${context.prediction.winner_name ?? 'Draw'}
+Over/Under signal: ${context.prediction.under_over ?? 'N/A'}
+${homeTeam} last-5 form: ${context.prediction.home_form ?? 'N/A'}
+${awayTeam} last-5 form: ${context.prediction.away_form ?? 'N/A'}
+Comparison: ${JSON.stringify(context.prediction.comparison)}`
+    : ''
+
   return `You are a football betting research analyst. Analyse the upcoming match between ${homeTeam} (home) and ${awayTeam} (away) using the data provided below.
 
 ## Available Data
@@ -37,6 +63,8 @@ ${JSON.stringify(context.awayInjuries, null, 2)}
 
 ### League Standings:
 ${JSON.stringify(context.standings, null, 2)}
+${lineupSection}
+${predictionSection}
 
 ## Instructions
 
@@ -44,13 +72,13 @@ Produce a structured JSON report covering ALL of the following 9 sections:
 
 1. **recent form** — last 5 results per team, goals scored/conceded, clean sheets
 2. **head-to-head** — last 5 meetings, average goals, home/away patterns
-3. **squad availability** — confirmed injuries, suspensions, doubtful players
-4. **key player** — top performers last 3-5 games (goals, assists, cards, shots)
+3. **squad availability** — confirmed injuries, suspensions, doubtful players, key players missing from lineup if announced
+4. **key players** — top performers last 3-5 games (goals, assists, cards, shots)
 5. **home/away record** — season performance split by venue
 6. **league context** — table position, points gap, motivation
-7. **tactical** — formation tendencies, pressing style, set piece threat
+7. **tactical** — formation (use announced lineup if available), pressing style, set piece threat
 8. **conditions** — weather or pitch notes if known
-9. **suggestions** — 2-4 specific betting markets with odds, reasoning, and confidence
+9. **suggestions** — 2-4 specific betting markets with odds, reasoning, and confidence. Use the statistical prediction as one data point but apply your own analysis.
 
 Return ONLY valid JSON matching this exact schema (no markdown, no explanation):
 {
