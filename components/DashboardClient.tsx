@@ -21,6 +21,7 @@ const COMPETITION_SHORT: Record<string, string> = {
 const LIVE_STATUSES = new Set(['1H', 'HT', '2H', 'ET', 'BT', 'P'])
 
 type ViewMode = 'competition' | 'date'
+type Tab = 'upcoming' | 'results'
 type SyncKey = 'fixtures' | 'odds' | 'rich'
 
 function getDateLabel(isoDate: string): string {
@@ -41,6 +42,9 @@ interface Props {
 
 export function DashboardClient({ initialMatches }: Props) {
   const router = useRouter()
+  const [tab, setTab] = useState<Tab>('upcoming')
+  const [results, setResults] = useState<Match[] | null>(null)
+  const [resultsLoading, setResultsLoading] = useState(false)
   const [syncing, setSyncing] = useState<Partial<Record<SyncKey, boolean>>>({})
   const [syncStatus, setSyncStatus] = useState<Partial<Record<SyncKey, string>>>({})
   const [viewMode, setViewMode] = useState<ViewMode>('competition')
@@ -49,6 +53,18 @@ export function DashboardClient({ initialMatches }: Props) {
   const [filterHasReport, setFilterHasReport] = useState(false)
 
   const hasLive = initialMatches.some(m => LIVE_STATUSES.has(m.status))
+
+  function switchTab(t: Tab) {
+    setTab(t)
+    setFilterComp(null)
+    if (t === 'results' && results === null) {
+      setResultsLoading(true)
+      fetch('/api/matches/results')
+        .then(r => r.json())
+        .then((data: Match[]) => setResults(data))
+        .finally(() => setResultsLoading(false))
+    }
+  }
 
   // Auto-refresh every 60s when there are live matches
   useEffect(() => {
@@ -74,8 +90,10 @@ export function DashboardClient({ initialMatches }: Props) {
     }
   }
 
+  const activeMatches = tab === 'results' ? (results ?? []) : initialMatches
+
   // Build sorted competition list
-  const allCompetitions = [...new Set(initialMatches.map(m => m.competition))].sort((a, b) => {
+  const allCompetitions = [...new Set(activeMatches.map(m => m.competition))].sort((a, b) => {
     const ai = COMPETITION_ORDER.indexOf(a)
     const bi = COMPETITION_ORDER.indexOf(b)
     if (ai === -1 && bi === -1) return a.localeCompare(b)
@@ -85,7 +103,7 @@ export function DashboardClient({ initialMatches }: Props) {
   })
 
   // Apply filters
-  let filtered = initialMatches
+  let filtered = activeMatches
   if (filterComp) filtered = filtered.filter(m => m.competition === filterComp)
   if (filterHasOdds) filtered = filtered.filter(m => (m.odds?.length ?? 0) > 0)
   if (filterHasReport) filtered = filtered.filter(m => {
@@ -115,7 +133,10 @@ export function DashboardClient({ initialMatches }: Props) {
       if (!dateMap.has(dk)) dateMap.set(dk, [])
       dateMap.get(dk)!.push(m)
     }
-    for (const [dk, ms] of [...dateMap.entries()].sort()) {
+    const sortedEntries = [...dateMap.entries()].sort(([a], [b]) =>
+      tab === 'results' ? b.localeCompare(a) : a.localeCompare(b)
+    )
+    for (const [dk, ms] of sortedEntries) {
       const sorted = ms.sort((a, b) => a.match_date.localeCompare(b.match_date))
       groups.push({
         key: dk,
@@ -137,15 +158,31 @@ export function DashboardClient({ initialMatches }: Props) {
     <div className="p-4 md:p-6">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <h1 className="font-['Rajdhani'] text-2xl font-bold text-white tracking-widest uppercase flex items-center gap-2">
-          {hasLive && <span className="text-[#ff4444] animate-pulse text-lg">●</span>}
-          Matches
-          {hasLive && (
-            <span className="text-[10px] font-mono text-[#ff4444] border border-[#ff444430] bg-[#ff444410] px-2 py-0.5 rounded-full normal-case tracking-normal">
-              LIVE NOW
-            </span>
-          )}
-        </h1>
+        <div className="flex items-center gap-3">
+          <h1 className="font-['Rajdhani'] text-2xl font-bold text-white tracking-widest uppercase flex items-center gap-2">
+            {hasLive && tab === 'upcoming' && <span className="text-[#ff4444] animate-pulse text-lg">●</span>}
+            Matches
+            {hasLive && tab === 'upcoming' && (
+              <span className="text-[10px] font-mono text-[#ff4444] border border-[#ff444430] bg-[#ff444410] px-2 py-0.5 rounded-full normal-case tracking-normal">
+                LIVE NOW
+              </span>
+            )}
+          </h1>
+          {/* Tab switcher */}
+          <div className="flex bg-[#0d1117] border border-[#1c2535] rounded-md overflow-hidden">
+            {(['upcoming', 'results'] as Tab[]).map(t => (
+              <button
+                key={t}
+                onClick={() => switchTab(t)}
+                className={`px-3 py-1 text-[10px] font-mono tracking-wider transition-colors ${
+                  tab === t ? 'bg-[#1c2535] text-[#c0ccd8]' : 'text-[#3a4a5e] hover:text-[#8a9ab0]'
+                }`}
+              >
+                {t === 'upcoming' ? 'UPCOMING' : 'RESULTS'}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Sync buttons */}
         <div className="flex items-center gap-1.5">
@@ -242,9 +279,13 @@ export function DashboardClient({ initialMatches }: Props) {
       </div>
 
       {/* Match list */}
-      {groups.length === 0 ? (
+      {resultsLoading ? (
+        <div className="text-center py-20 text-[#3a4a5e] font-mono text-sm animate-pulse">
+          Loading results...
+        </div>
+      ) : groups.length === 0 ? (
         <div className="text-center py-20 text-[#3a4a5e] font-mono text-sm">
-          No matches found.
+          {tab === 'results' ? 'No results in the last 7 days.' : 'No matches found.'}
         </div>
       ) : (
         <div className="flex flex-col gap-5">

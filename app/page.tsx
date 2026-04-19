@@ -8,6 +8,9 @@ async function getMatches(): Promise<Match[]> {
   const in14Days = new Date()
   in14Days.setDate(in14Days.getDate() + 14)
 
+  const todayStart = new Date()
+  todayStart.setUTCHours(0, 0, 0, 0)
+
   const { data, error } = await supabase
     .from('matches')
     .select(`
@@ -18,6 +21,7 @@ async function getMatches(): Promise<Match[]> {
       report:reports(id, generated_at),
       prediction:match_predictions(*)
     `)
+    .gte('match_date', todayStart.toISOString())
     .lte('match_date', in14Days.toISOString())
     .in('status', ['NS', '1H', 'HT', '2H', 'ET', 'BT', 'P'])
     .order('match_date', { ascending: true })
