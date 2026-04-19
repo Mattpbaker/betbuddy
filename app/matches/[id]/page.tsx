@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { OddsPanel } from '@/components/OddsPanel'
 import { ReportPanel } from '@/components/ReportPanel'
@@ -34,6 +35,10 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
 
   return (
     <div className="p-6 flex flex-col gap-6">
+      <Link href="/" className="font-mono text-[11px] text-[#5a6a7e] hover:text-[#8a9ab0] transition-colors w-fit">
+        ← Back to matches
+      </Link>
+
       {/* Match header */}
       <div className="bg-[#0d1117] border border-[#1c2535] rounded-xl p-5">
         <div className="inline-flex items-center gap-2 bg-[#2a9d5c18] border border-[#2a9d5c33] rounded px-2 py-1 font-mono text-[10px] text-[#2a9d5c] tracking-widest mb-4">
