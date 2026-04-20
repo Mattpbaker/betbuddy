@@ -190,3 +190,44 @@ export interface MatchPrediction {
   away_form: string | null
   comparison: Record<string, { home: string; away: string }> | null
 }
+
+export interface CandidateSelection {
+  matchId: string
+  matchDate: string
+  competition: string
+  homeTeam: string
+  awayTeam: string
+  reportId: string
+  label: string
+  market: string
+  selection: string
+  odds: number
+  confidence: 'High' | 'Medium' | 'Low'
+  reasoning: string
+}
+
+export interface AccumulatorLeg {
+  id: string
+  accumulator_id: string
+  match_id: string
+  market: string
+  selection: string
+  odds: number
+  confidence: 'High' | 'Medium' | 'Low'
+  report_id: string | null
+  match?: {
+    match_date: string
+    competition: string
+    home_team: { name: string }
+    away_team: { name: string }
+  }
+}
+
+export interface Accumulator {
+  id: string
+  name: string
+  total_odds: number
+  ai_summary: string | null
+  created_at: string
+  legs?: AccumulatorLeg[]
+}
