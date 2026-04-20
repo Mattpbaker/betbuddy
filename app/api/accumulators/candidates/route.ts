@@ -1,14 +1,14 @@
 // app/api/accumulators/candidates/route.ts
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import type { CandidateSelection } from '@/types'
+import type { CandidateSelection, BetSuggestion } from '@/types'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const rawTimeframe = searchParams.get('timeframe') ?? '1'
   const days = parseInt(rawTimeframe, 10)
 
-  if (days !== 1 && days !== 3) {
+  if (isNaN(days) || (days !== 1 && days !== 3)) {
     return NextResponse.json({ error: 'timeframe must be 1 or 3' }, { status: 400 })
   }
 
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   const { data: matches, error } = await supabaseAdmin
     .from('matches')
     .select(`
-      id, match_date, competition, status,
+      id, match_date, competition,
       home_team:home_team_id(name),
       away_team:away_team_id(name),
       report:reports!match_id(id, content)
@@ -39,10 +39,13 @@ export async function GET(req: Request) {
     const report = reportArr[0]
     if (!report?.content?.suggestions?.length) continue
 
-    const homeTeam = (match.home_team as any)?.name ?? ''
-    const awayTeam = (match.away_team as any)?.name ?? ''
+    const homeTeam = (match.home_team as unknown as { name: string } | null)?.name ?? ''
+    const awayTeam = (match.away_team as unknown as { name: string } | null)?.name ?? ''
 
-    for (const s of report.content.suggestions) {
+    const VALID_CONFIDENCE = new Set(['High', 'Medium', 'Low'])
+
+    for (const s of report.content.suggestions as BetSuggestion[]) {
+      if (typeof s.odds !== 'number' || !VALID_CONFIDENCE.has(s.confidence)) continue
       candidates.push({
         matchId: match.id,
         matchDate: match.match_date,
