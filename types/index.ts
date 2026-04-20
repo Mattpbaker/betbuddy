@@ -191,6 +191,7 @@ export interface MatchPrediction {
   comparison: Record<string, { home: string; away: string }> | null
 }
 
+/** Client-side view model built from the candidates API response — not a DB row. */
 export interface CandidateSelection {
   matchId: string
   matchDate: string
