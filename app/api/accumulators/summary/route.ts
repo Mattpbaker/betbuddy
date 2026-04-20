@@ -1,5 +1,6 @@
 // app/api/accumulators/summary/route.ts
 import { NextResponse } from 'next/server'
+import Anthropic from '@anthropic-ai/sdk'
 
 interface LegInput {
   homeTeam: string
@@ -11,16 +12,10 @@ interface LegInput {
   reasoning: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _client: any | null = null
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getClient(): any {
+let _client: Anthropic | null = null
+function getClient(): Anthropic {
   if (!_client) {
-    // Dynamic require so jest.mock('@anthropic-ai/sdk') intercepts correctly
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const sdk = require('@anthropic-ai/sdk')
-    const AnthropicCtor = sdk.default ?? sdk
-    _client = new AnthropicCtor({ apiKey: process.env.ANTHROPIC_API_KEY ?? '' })
+    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? '' })
   }
   return _client
 }

@@ -3,6 +3,7 @@ import { POST } from '@/app/api/accumulators/summary/route'
 
 jest.mock('@anthropic-ai/sdk', () => {
   return {
+    __esModule: true,
     default: jest.fn().mockImplementation(() => ({
       messages: {
         create: jest.fn().mockResolvedValue({
