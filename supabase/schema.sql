@@ -199,3 +199,24 @@ alter table teams add constraint if not exists teams_name_competition_key unique
 alter table matches add column if not exists odds_event_id text;
 alter table matches add constraint if not exists matches_odds_event_id_key unique (odds_event_id);
 alter table matches alter column api_football_id drop not null;
+
+-- Accumulator builder: saved named accumulators
+create table if not exists accumulators (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  total_odds numeric(8,2) not null,
+  ai_summary text,
+  created_at timestamptz not null default now()
+);
+
+-- Individual legs of a saved accumulator
+create table if not exists accumulator_legs (
+  id uuid primary key default gen_random_uuid(),
+  accumulator_id uuid not null references accumulators(id) on delete cascade,
+  match_id uuid not null references matches(id),
+  market text not null,
+  selection text not null,
+  odds numeric(6,2) not null,
+  confidence text not null check (confidence in ('High', 'Medium', 'Low')),
+  report_id uuid references reports(id)
+);
