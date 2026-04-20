@@ -40,6 +40,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'name, totalOdds, and legs are required' }, { status: 400 })
     }
 
+    const VALID_CONFIDENCE = new Set(['High', 'Medium', 'Low'])
+    const invalidLeg = legs.find(
+      l => !l.matchId || !l.market || !l.selection || l.odds == null || !VALID_CONFIDENCE.has(l.confidence)
+    )
+    if (invalidLeg) {
+      return NextResponse.json(
+        { error: 'Each leg requires matchId, market, selection, odds, and confidence (High|Medium|Low)' },
+        { status: 400 }
+      )
+    }
+
     const { data: accu, error: accuError } = await supabaseAdmin
       .from('accumulators')
       .insert({ name, total_odds: totalOdds, ai_summary: aiSummary ?? null })
@@ -64,7 +75,10 @@ export async function POST(req: Request) {
         }))
       )
 
-    if (legsError) return NextResponse.json({ error: legsError.message }, { status: 500 })
+    if (legsError) {
+      await supabaseAdmin.from('accumulators').delete().eq('id', accu.id)
+      return NextResponse.json({ error: legsError.message }, { status: 500 })
+    }
 
     return NextResponse.json({ id: accu.id })
   } catch (err) {
