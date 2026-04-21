@@ -92,7 +92,7 @@ export function AccumulatorBuilderPanel({
         </div>
       )}
 
-      {minMultiplier !== null && (
+      {minMultiplier !== null && legs.length > 0 && (
         <div className="flex justify-between font-mono text-[10px]">
           <span className="text-[#5a6a7e]">Min Target</span>
           <span className={totalOdds >= minMultiplier ? 'text-[#2a9d5c]' : 'text-[#e54242]'}>

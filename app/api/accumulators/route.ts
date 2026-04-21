@@ -51,6 +51,10 @@ export async function POST(req: Request) {
       )
     }
 
+    if (legs.length > 20) {
+      return NextResponse.json({ error: 'Maximum 20 legs per accumulator' }, { status: 400 })
+    }
+
     const { data: accu, error: accuError } = await supabaseAdmin
       .from('accumulators')
       .insert({ name, total_odds: totalOdds, ai_summary: aiSummary ?? null })
