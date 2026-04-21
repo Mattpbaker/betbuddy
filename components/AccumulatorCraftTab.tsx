@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { CandidateSelection } from '@/types'
 import { AccumulatorBuilderPanel } from './AccumulatorBuilderPanel'
 
@@ -30,6 +30,7 @@ export function AccumulatorCraftTab() {
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
   const [savedMessage, setSavedMessage] = useState('')
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   function toggleRisk(r: Confidence) {
     setRiskRatings(prev =>
@@ -37,14 +38,14 @@ export function AccumulatorCraftTab() {
     )
   }
 
-  const filtered = allCandidates.filter(c => {
+  const filtered = useMemo(() => allCandidates.filter(c => {
     const min = minOdds ? parseFloat(minOdds) : null
     const max = maxOdds ? parseFloat(maxOdds) : null
     if (min !== null && c.odds < min) return false
     if (max !== null && c.odds > max) return false
     if (riskRatings.length > 0 && !riskRatings.includes(c.confidence)) return false
     return true
-  })
+  }), [allCandidates, minOdds, maxOdds, riskRatings])
 
   async function handleCraft() {
     setLoading(true)
@@ -68,7 +69,11 @@ export function AccumulatorCraftTab() {
   }
 
   function addLeg(c: CandidateSelection) {
-    setLegs(prev => [...prev, c])
+    const key = `${c.matchId}|${c.market}|${c.selection}`
+    setLegs(prev => {
+      if (prev.some(l => `${l.matchId}|${l.market}|${l.selection}` === key)) return prev
+      return [...prev, c]
+    })
     setAiSummary('')
   }
 
@@ -96,7 +101,13 @@ export function AccumulatorCraftTab() {
         }),
       })
       const data = await res.json()
-      if (res.ok) setAiSummary(data.summary)
+      if (res.ok) {
+        setAiSummary(data.summary)
+      } else {
+        setError(data.error ?? 'Failed to generate summary.')
+      }
+    } catch (e: any) {
+      setError(e.message ?? 'Failed to generate summary.')
     } finally {
       setGeneratingSummary(false)
     }
@@ -105,6 +116,7 @@ export function AccumulatorCraftTab() {
   async function handleSave() {
     setSaving(true)
     setSavedMessage('')
+    setSaveError(null)
     try {
       const totalOdds = legs.reduce((acc, l) => acc * l.odds, 1)
       const res = await fetch('/api/accumulators', {
@@ -124,18 +136,26 @@ export function AccumulatorCraftTab() {
           })),
         }),
       })
+      const data = await res.json()
       if (res.ok) {
         setSavedMessage(`"${name.trim()}" saved!`)
         setLegs([])
         setName('')
         setAiSummary('')
+      } else {
+        setSaveError(data.error ?? 'Save failed. Please try again.')
       }
+    } catch (e: any) {
+      setSaveError(e.message ?? 'Save failed.')
     } finally {
       setSaving(false)
     }
   }
 
-  const alreadyAddedKeys = new Set(legs.map(l => `${l.matchId}|${l.market}|${l.selection}`))
+  const alreadyAddedKeys = useMemo(
+    () => new Set(legs.map(l => `${l.matchId}|${l.market}|${l.selection}`)),
+    [legs]
+  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -284,11 +304,11 @@ export function AccumulatorCraftTab() {
                 No selections match your criteria.
               </div>
             ) : (
-              filtered.map((c, i) => {
+              filtered.map((c) => {
                 const key = `${c.matchId}|${c.market}|${c.selection}`
                 const added = alreadyAddedKeys.has(key)
                 return (
-                  <div key={i} className="bg-[#0d1117] border border-[#1c2535] rounded-lg p-4 flex items-start gap-4">
+                  <div key={`${c.matchId}|${c.market}|${c.selection}`} className="bg-[#0d1117] border border-[#1c2535] rounded-lg p-4 flex items-start gap-4">
                     <div className="flex-1 min-w-0">
                       <div className="font-mono text-[10px] text-[#4a5a6e] mb-0.5">
                         {c.competition} · {new Date(c.matchDate).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
@@ -325,6 +345,9 @@ export function AccumulatorCraftTab() {
               <div className="bg-[#2a9d5c18] border border-[#2a9d5c33] rounded-lg px-4 py-3 font-mono text-[11px] text-[#2a9d5c] mb-3">
                 {savedMessage}
               </div>
+            )}
+            {saveError && (
+              <p className="font-mono text-[11px] text-[#e54242] mb-2">{saveError}</p>
             )}
             <AccumulatorBuilderPanel
               legs={legs}
