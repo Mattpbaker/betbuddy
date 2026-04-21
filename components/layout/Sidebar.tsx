@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 const navItems = [
   { href: '/', icon: '⊞', label: 'Dashboard' },
   { href: '/slip', icon: '📋', label: 'Bet Slip' },
+  { href: '/accumulators', icon: '◈', label: 'Accumulators' },
 ]
 
 export function Sidebar() {
