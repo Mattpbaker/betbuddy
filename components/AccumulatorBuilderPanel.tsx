@@ -89,14 +89,15 @@ export function AccumulatorBuilderPanel({
             <span className="text-[#5a6a7e]">Total Odds</span>
             <span className="text-[#2a9d5c] font-bold">×{totalOdds.toFixed(2)}</span>
           </div>
-          {minMultiplier !== null && (
-            <div className="flex justify-between font-mono text-[10px]">
-              <span className="text-[#5a6a7e]">Min Target</span>
-              <span className={totalOdds >= minMultiplier ? 'text-[#2a9d5c]' : 'text-[#e54242]'}>
-                ×{minMultiplier.toFixed(2)} {totalOdds >= minMultiplier ? '✓' : '✗'}
-              </span>
-            </div>
-          )}
+        </div>
+      )}
+
+      {minMultiplier !== null && (
+        <div className="flex justify-between font-mono text-[10px]">
+          <span className="text-[#5a6a7e]">Min Target</span>
+          <span className={totalOdds >= minMultiplier ? 'text-[#2a9d5c]' : 'text-[#e54242]'}>
+            ×{minMultiplier.toFixed(2)} {totalOdds >= minMultiplier ? '✓' : '✗'}
+          </span>
         </div>
       )}
 
@@ -106,15 +107,13 @@ export function AccumulatorBuilderPanel({
         </div>
       )}
 
-      {legs.length >= 2 && (
-        <button
-          onClick={onGenerateSummary}
-          disabled={!canGenerate}
-          className="w-full border border-[#2a4a5e] text-[#5a8ab0] font-['Rajdhani'] font-bold text-sm tracking-widest uppercase py-2 rounded-lg hover:bg-[#0a1a2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          {generatingSummary ? 'Generating…' : aiSummary ? 'Regenerate AI Summary' : 'Generate AI Summary'}
-        </button>
-      )}
+      <button
+        onClick={onGenerateSummary}
+        disabled={!canGenerate}
+        className="w-full border border-[#2a4a5e] text-[#5a8ab0] font-['Rajdhani'] font-bold text-sm tracking-widest uppercase py-2 rounded-lg hover:bg-[#0a1a2e] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        {generatingSummary ? 'Generating…' : aiSummary ? 'Regenerate AI Summary' : 'Generate AI Summary'}
+      </button>
 
       <div className="flex flex-col gap-2 border-t border-[#1c2535] pt-3">
         <input
