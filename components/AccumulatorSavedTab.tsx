@@ -11,20 +11,30 @@ const CONFIDENCE_BADGE: Record<string, string> = {
 export function AccumulatorSavedTab() {
   const [accumulators, setAccumulators] = useState<Accumulator[]>([])
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/api/accumulators')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('Failed to load accumulators')
+        return r.json()
+      })
       .then(d => setAccumulators(d.accumulators ?? []))
+      .catch(() => setFetchError('Failed to load saved accumulators.'))
       .finally(() => setLoading(false))
   }, [])
 
   async function handleDelete(id: string, name: string) {
     if (!confirm(`Delete "${name}"?`)) return
     setDeletingId(id)
-    await fetch(`/api/accumulators/${id}`, { method: 'DELETE' })
+    const res = await fetch(`/api/accumulators/${id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      setDeletingId(null)
+      alert('Failed to delete. Please try again.')
+      return
+    }
     setAccumulators(prev => prev.filter(a => a.id !== id))
     setDeletingId(null)
   }
@@ -42,6 +52,10 @@ export function AccumulatorSavedTab() {
 
   if (loading) {
     return <div className="font-mono text-[11px] text-[#3a4a5e] py-10 text-center">Loading…</div>
+  }
+
+  if (fetchError) {
+    return <div className="font-mono text-[11px] text-[#e54242] py-10 text-center">{fetchError}</div>
   }
 
   if (accumulators.length === 0) {
