@@ -1,4 +1,6 @@
 // __tests__/api/accumulators-summary.test.ts
+process.env.ANTHROPIC_API_KEY = 'test-key'
+
 import { POST } from '@/app/api/accumulators/summary/route'
 
 jest.mock('@anthropic-ai/sdk', () => {
